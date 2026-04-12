@@ -1,0 +1,51 @@
+
+Main Project
+----Documents
+	--projectManager()management
+	--productManager
+	--ProjectOverview.md
+	--TechnologyStack.md
+	--SRS.md 
+	--GitWorkFolow.md
+	--CodeStandardAndGulde.md
+	--CodeCommunityStandard.md
+	
+---frontend
+	--md for frontend (User Journey)
+	--BrandGuideline.md ()
+	--same from main documents all md 
+	--necessery md file as defand on sdlc and gpt/gemini suggesstion plan 
+	--task.md(Page wise)
+	--testCase(Unit Test)
+---Backend
+	--As Same from Main Documents all md (necessery)
+--Mysql
+	--as same from main documents .md (As necessery)
+
+Sub Agent 
+
+Main Goal follow SDLC ,Scraumn,Agile etc.
+Full Project Monolithic Service 
+
+
+Lets create Multi Agent Teams for this project
+Enable geimini_EXPERIMENTAL_AGENT_TEAMS
+And analysis my project and do the Agent Team 
+
+One Project Manager Agent
+One Team Lead Agent
+One Frontend Agent
+One Backend Agent
+One Data-Base Agent
+One Dev-Ops Agent
+One QA Agent for testing
+
+Also make sure those agents can make commination between each other.
+Any question please ask me and suggest me more, help me more about do the Agent team formation is i need more or less Agent.
+
+https://skillai.io/
+
+https://geminicli.com/docs/cli/tutorials/skills-getting-started/
+
+
+after redy all generate geimini.md file
