@@ -18,6 +18,24 @@
 
 ---
 
+## Demo
+
+### Desktop View
+> Animated walkthrough: Welcome → Login → Dashboard → Add Expense → Monthly Analysis
+
+<p align="center">
+  <img src="docs/app-flow.svg" alt="Desktop App Flow Animation" width="100%" />
+</p>
+
+### Mobile View
+> Animated walkthrough: Dashboard → Expense List → Budget Alerts → Monthly Summary
+
+<p align="center">
+  <img src="docs/mobile-flow.svg" alt="Mobile App Flow Animation" width="320" />
+</p>
+
+---
+
 ## How It Works
 
 The app follows a simple **6-step user journey** from onboarding to monthly review:

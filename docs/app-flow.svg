@@ -1,0 +1,279 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="50%" style="stop-color:#16213e"/>
+      <stop offset="100%" style="stop-color:#0f3460"/>
+    </linearGradient>
+    <linearGradient id="btnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4fc3f7"/>
+      <stop offset="100%" style="stop-color:#81d4fa"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bg)" rx="12"/>
+
+  <!-- ===== SCREEN 1: Welcome ===== -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1;1;0;0;0;0;0;0;0;0;0" dur="18s" repeatCount="indefinite"/>
+
+    <!-- Icon circle -->
+    <circle cx="400" cy="120" r="35" fill="rgba(79,195,247,0.15)" stroke="rgba(79,195,247,0.3)" stroke-width="1"/>
+    <text x="400" y="130" text-anchor="middle" fill="#4fc3f7" font-size="28" font-weight="bold">$</text>
+
+    <!-- Title -->
+    <text x="400" y="185" text-anchor="middle" fill="white" font-size="28" font-weight="800">Smart Expense</text>
+    <text x="400" y="218" text-anchor="middle" fill="white" font-size="28" font-weight="800">&amp; Budget Tracker</text>
+
+    <!-- Tagline -->
+    <text x="400" y="250" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="13">Take control of your finances</text>
+
+    <!-- Feature items -->
+    <rect x="250" y="275" width="300" height="38" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+    <text x="275" y="299" fill="#4fc3f7" font-size="16" font-weight="bold">$</text>
+    <text x="300" y="296" fill="white" font-size="13" font-weight="600">Track Expenses</text>
+
+    <rect x="250" y="320" width="300" height="38" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+    <text x="275" y="344" fill="#4fc3f7" font-size="16" font-weight="bold">&#x2713;</text>
+    <text x="300" y="341" fill="white" font-size="13" font-weight="600">Stay Within Budget</text>
+
+    <rect x="250" y="365" width="300" height="38" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+    <text x="275" y="389" fill="#4fc3f7" font-size="16" font-weight="bold">&#x25A0;</text>
+    <text x="300" y="386" fill="white" font-size="13" font-weight="600">Monthly Analysis</text>
+
+    <!-- Button -->
+    <rect x="280" y="420" width="240" height="44" rx="10" fill="url(#btnGrad)"/>
+    <text x="400" y="447" text-anchor="middle" fill="#1a1a2e" font-size="15" font-weight="700">Get Started</text>
+
+    <text x="400" y="485" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="11">Free to use. No credit card required.</text>
+  </g>
+
+  <!-- ===== SCREEN 2: Login ===== -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;0;0;1;1;0;0;0;0;0;0;0" dur="18s" repeatCount="indefinite"/>
+
+    <!-- White card -->
+    <rect x="230" y="70" width="340" height="370" rx="16" fill="white" filter="drop-shadow(0 10px 40px rgba(0,0,0,0.3))"/>
+
+    <!-- Logo -->
+    <circle cx="400" cy="115" r="24" fill="#1a1a2e"/>
+    <text x="400" y="123" text-anchor="middle" fill="#4fc3f7" font-size="20" font-weight="bold">$</text>
+
+    <text x="400" y="165" text-anchor="middle" fill="#222" font-size="22" font-weight="700">Welcome Back</text>
+    <text x="400" y="185" text-anchor="middle" fill="#999" font-size="12">Log in to manage your expenses</text>
+
+    <!-- Email field -->
+    <text x="262" y="218" fill="#555" font-size="12" font-weight="600">Email</text>
+    <rect x="255" y="224" width="290" height="38" rx="8" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="270" y="248" fill="#bbb" font-size="13">demo@example.com</text>
+
+    <!-- Password field -->
+    <text x="262" y="282" fill="#555" font-size="12" font-weight="600">Password</text>
+    <rect x="255" y="288" width="290" height="38" rx="8" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="270" y="312" fill="#bbb" font-size="13">••••••••</text>
+
+    <!-- Login button -->
+    <rect x="255" y="345" width="290" height="42" rx="10" fill="#333"/>
+    <text x="400" y="371" text-anchor="middle" fill="white" font-size="14" font-weight="600">Log In</text>
+
+    <text x="400" y="415" text-anchor="middle" fill="#888" font-size="12">Don't have an account? <tspan fill="#0f3460" font-weight="600">Sign Up</tspan></text>
+  </g>
+
+  <!-- ===== SCREEN 3: Dashboard ===== -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;0;0;0;0;1;1;0;0;0;0;0" dur="18s" repeatCount="indefinite"/>
+
+    <!-- Sidebar -->
+    <rect x="50" y="40" width="160" height="420" rx="12" fill="#1a1a2e"/>
+    <text x="85" y="75" fill="#4fc3f7" font-size="16">$</text>
+    <text x="105" y="75" fill="white" font-size="13" font-weight="700">Expense Tracker</text>
+
+    <text x="75" y="108" fill="rgba(255,255,255,0.3)" font-size="9" letter-spacing="1.5">MAIN</text>
+
+    <rect x="58" y="116" width="145" height="32" rx="6" fill="rgba(79,195,247,0.12)"/>
+    <text x="82" y="137" fill="#4fc3f7" font-size="13" font-weight="500">Home</text>
+    <text x="82" y="170" fill="rgba(255,255,255,0.5)" font-size="13">Add</text>
+    <text x="82" y="196" fill="rgba(255,255,255,0.5)" font-size="13">Reports</text>
+    <text x="82" y="222" fill="rgba(255,255,255,0.5)" font-size="13">Profile</text>
+
+    <text x="75" y="258" fill="rgba(255,255,255,0.3)" font-size="9" letter-spacing="1.5">MORE</text>
+    <text x="82" y="280" fill="rgba(255,255,255,0.5)" font-size="13">Expenses</text>
+    <text x="82" y="306" fill="rgba(255,255,255,0.5)" font-size="13">Categories</text>
+    <text x="82" y="332" fill="rgba(255,255,255,0.5)" font-size="13">Alerts</text>
+
+    <!-- Content area -->
+    <rect x="225" y="40" width="525" height="420" rx="12" fill="white"/>
+
+    <text x="260" y="80" fill="#222" font-size="22" font-weight="700">Dashboard</text>
+    <text x="260" y="100" fill="#888" font-size="12">Overview of this month</text>
+
+    <!-- Cards grid -->
+    <rect x="260" y="118" width="150" height="75" rx="10" fill="#f8f9fa" stroke="#e9ecef" stroke-width="1"/>
+    <text x="275" y="140" fill="#888" font-size="10" letter-spacing="0.5">INCOME</text>
+    <text x="275" y="172" fill="#222" font-size="24" font-weight="700">$500.00</text>
+
+    <rect x="425" y="118" width="150" height="75" rx="10" fill="#f8f9fa" stroke="#e9ecef" stroke-width="1"/>
+    <text x="440" y="140" fill="#888" font-size="10" letter-spacing="0.5">BUDGET REMAINING</text>
+    <text x="440" y="172" fill="#27ae60" font-size="24" font-weight="700">$320.00</text>
+
+    <rect x="590" y="118" width="145" height="75" rx="10" fill="#f8f9fa" stroke="#e9ecef" stroke-width="1"/>
+    <text x="605" y="140" fill="#888" font-size="10" letter-spacing="0.5">TOTAL SPENT</text>
+    <text x="605" y="172" fill="#e74c3c" font-size="24" font-weight="700">$180.00</text>
+
+    <!-- Buttons -->
+    <rect x="260" y="215" width="230" height="40" rx="10" fill="#333"/>
+    <text x="375" y="240" text-anchor="middle" fill="white" font-size="13" font-weight="600">Add New Expense</text>
+
+    <rect x="505" y="215" width="230" height="40" rx="10" fill="white" stroke="#333" stroke-width="2"/>
+    <text x="620" y="240" text-anchor="middle" fill="#333" font-size="13" font-weight="600">View All Expenses</text>
+  </g>
+
+  <!-- ===== SCREEN 4: Add Expense ===== -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;0;0;0;0;0;0;1;1;0;0;0" dur="18s" repeatCount="indefinite"/>
+
+    <!-- Sidebar -->
+    <rect x="50" y="40" width="160" height="420" rx="12" fill="#1a1a2e"/>
+    <text x="85" y="75" fill="#4fc3f7" font-size="16">$</text>
+    <text x="105" y="75" fill="white" font-size="13" font-weight="700">Expense Tracker</text>
+    <text x="75" y="108" fill="rgba(255,255,255,0.3)" font-size="9" letter-spacing="1.5">MAIN</text>
+    <text x="82" y="137" fill="rgba(255,255,255,0.5)" font-size="13">Home</text>
+    <rect x="58" y="148" width="145" height="32" rx="6" fill="rgba(79,195,247,0.12)"/>
+    <text x="82" y="170" fill="#4fc3f7" font-size="13" font-weight="500">Add</text>
+    <text x="82" y="196" fill="rgba(255,255,255,0.5)" font-size="13">Reports</text>
+    <text x="82" y="222" fill="rgba(255,255,255,0.5)" font-size="13">Profile</text>
+
+    <!-- Content -->
+    <rect x="225" y="40" width="525" height="420" rx="12" fill="white"/>
+
+    <text x="260" y="80" fill="#222" font-size="22" font-weight="700">Add Expense</text>
+    <text x="260" y="100" fill="#aaa" font-size="11" letter-spacing="1">STEP 3</text>
+
+    <!-- Form -->
+    <text x="260" y="132" fill="#555" font-size="12" font-weight="600">Amount</text>
+    <rect x="255" y="138" width="350" height="38" rx="8" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="270" y="162" fill="#bbb" font-size="13">e.g. $15</text>
+
+    <text x="260" y="198" fill="#555" font-size="12" font-weight="600">Category</text>
+    <rect x="255" y="204" width="350" height="38" rx="8" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="270" y="228" fill="#333" font-size="13">Food</text>
+    <text x="580" y="228" fill="#bbb" font-size="12">&#x25BC;</text>
+
+    <text x="260" y="264" fill="#555" font-size="12" font-weight="600">Date</text>
+    <rect x="255" y="270" width="350" height="38" rx="8" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="270" y="294" fill="#333" font-size="13">2026-04-13</text>
+
+    <text x="260" y="330" fill="#555" font-size="12" font-weight="600">Note</text>
+    <rect x="255" y="336" width="350" height="38" rx="8" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="270" y="360" fill="#bbb" font-size="13">Lunch / Bus fare / Shopping</text>
+
+    <rect x="255" y="392" width="350" height="42" rx="10" fill="#333"/>
+    <text x="430" y="418" text-anchor="middle" fill="white" font-size="14" font-weight="600">Save Expense</text>
+  </g>
+
+  <!-- ===== SCREEN 5: Monthly Analysis ===== -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1;1;0" dur="18s" repeatCount="indefinite"/>
+
+    <!-- Sidebar -->
+    <rect x="50" y="40" width="160" height="420" rx="12" fill="#1a1a2e"/>
+    <text x="85" y="75" fill="#4fc3f7" font-size="16">$</text>
+    <text x="105" y="75" fill="white" font-size="13" font-weight="700">Expense Tracker</text>
+    <text x="75" y="108" fill="rgba(255,255,255,0.3)" font-size="9" letter-spacing="1.5">MAIN</text>
+    <text x="82" y="137" fill="rgba(255,255,255,0.5)" font-size="13">Home</text>
+    <text x="82" y="163" fill="rgba(255,255,255,0.5)" font-size="13">Add</text>
+    <rect x="58" y="174" width="145" height="32" rx="6" fill="rgba(79,195,247,0.12)"/>
+    <text x="82" y="196" fill="#4fc3f7" font-size="13" font-weight="500">Reports</text>
+    <text x="82" y="222" fill="rgba(255,255,255,0.5)" font-size="13">Profile</text>
+
+    <!-- Content -->
+    <rect x="225" y="40" width="525" height="420" rx="12" fill="white"/>
+
+    <text x="260" y="80" fill="#222" font-size="22" font-weight="700">Monthly Analysis</text>
+    <text x="260" y="100" fill="#888" font-size="12">Spending trends</text>
+
+    <!-- Chart area -->
+    <rect x="260" y="115" width="475" height="180" rx="10" fill="#f8f9fa" stroke="#e9ecef" stroke-width="1"/>
+    <text x="275" y="138" fill="#888" font-size="12" font-weight="600">Spending by Category</text>
+
+    <!-- Bar chart -->
+    <line x1="310" y1="155" x2="310" y2="280" stroke="#e0e0e0" stroke-width="1"/>
+    <line x1="310" y1="280" x2="690" y2="280" stroke="#e0e0e0" stroke-width="1"/>
+
+    <!-- Bars with animation -->
+    <rect x="350" y="280" width="50" height="0" fill="#1a1a2e" rx="4">
+      <animate attributeName="height" values="0;105;105" dur="2s" begin="9s" fill="freeze" repeatCount="indefinite"/>
+      <animate attributeName="y" values="280;175;175" dur="2s" begin="9s" fill="freeze" repeatCount="indefinite"/>
+    </rect>
+    <text x="375" y="295" text-anchor="middle" fill="#888" font-size="11">Food</text>
+
+    <rect x="430" y="280" width="50" height="0" fill="#2d4a7a" rx="4">
+      <animate attributeName="height" values="0;45;45" dur="2s" begin="9.3s" fill="freeze" repeatCount="indefinite"/>
+      <animate attributeName="y" values="280;235;235" dur="2s" begin="9.3s" fill="freeze" repeatCount="indefinite"/>
+    </rect>
+    <text x="455" y="295" text-anchor="middle" fill="#888" font-size="11">Travel</text>
+
+    <rect x="510" y="280" width="50" height="0" fill="#3d6098" rx="4">
+      <animate attributeName="height" values="0;65;65" dur="2s" begin="9.6s" fill="freeze" repeatCount="indefinite"/>
+      <animate attributeName="y" values="280;215;215" dur="2s" begin="9.6s" fill="freeze" repeatCount="indefinite"/>
+    </rect>
+    <text x="535" y="295" text-anchor="middle" fill="#888" font-size="11">Bills</text>
+
+    <rect x="590" y="280" width="50" height="0" fill="#4d78b4" rx="4">
+      <animate attributeName="height" values="0;55;55" dur="2s" begin="9.9s" fill="freeze" repeatCount="indefinite"/>
+      <animate attributeName="y" values="280;225;225" dur="2s" begin="9.9s" fill="freeze" repeatCount="indefinite"/>
+    </rect>
+    <text x="615" y="295" text-anchor="middle" fill="#888" font-size="11">Shop</text>
+
+    <!-- Summary cards -->
+    <rect x="260" y="310" width="230" height="65" rx="10" fill="#f8f9fa" stroke="#e9ecef" stroke-width="1"/>
+    <text x="275" y="332" fill="#888" font-size="10" letter-spacing="0.5">TOP SPENDING AREA</text>
+    <text x="275" y="360" fill="#222" font-size="22" font-weight="700">Food</text>
+
+    <rect x="505" y="310" width="230" height="65" rx="10" fill="#f8f9fa" stroke="#e9ecef" stroke-width="1"/>
+    <text x="520" y="332" fill="#888" font-size="10" letter-spacing="0.5">AVERAGE DAILY SPENDING</text>
+    <text x="520" y="360" fill="#222" font-size="22" font-weight="700">$6.00</text>
+  </g>
+
+  <!-- Screen indicator dots -->
+  <g>
+    <circle cx="370" cy="478" r="4" fill="rgba(255,255,255,0.2)">
+      <animate attributeName="fill" values="rgba(79,195,247,1);rgba(79,195,247,1);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(79,195,247,1)" dur="18s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="385" cy="478" r="4" fill="rgba(255,255,255,0.2)">
+      <animate attributeName="fill" values="rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(79,195,247,1);rgba(79,195,247,1);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2)" dur="18s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="400" cy="478" r="4" fill="rgba(255,255,255,0.2)">
+      <animate attributeName="fill" values="rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(79,195,247,1);rgba(79,195,247,1);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2)" dur="18s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="415" cy="478" r="4" fill="rgba(255,255,255,0.2)">
+      <animate attributeName="fill" values="rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(79,195,247,1);rgba(79,195,247,1);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2)" dur="18s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="430" cy="478" r="4" fill="rgba(255,255,255,0.2)">
+      <animate attributeName="fill" values="rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(255,255,255,0.2);rgba(79,195,247,1);rgba(79,195,247,1);rgba(255,255,255,0.2)" dur="18s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Screen labels -->
+  <text x="400" y="25" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11" letter-spacing="2" opacity="0">
+    <animate attributeName="opacity" values="0;1;1;0;0;0;0;0;0;0;0;0" dur="18s" repeatCount="indefinite"/>
+    WELCOME
+  </text>
+  <text x="400" y="25" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11" letter-spacing="2" opacity="0">
+    <animate attributeName="opacity" values="0;0;0;1;1;0;0;0;0;0;0;0" dur="18s" repeatCount="indefinite"/>
+    LOGIN
+  </text>
+  <text x="400" y="25" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11" letter-spacing="2" opacity="0">
+    <animate attributeName="opacity" values="0;0;0;0;0;1;1;0;0;0;0;0" dur="18s" repeatCount="indefinite"/>
+    DASHBOARD
+  </text>
+  <text x="400" y="25" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11" letter-spacing="2" opacity="0">
+    <animate attributeName="opacity" values="0;0;0;0;0;0;0;1;1;0;0;0" dur="18s" repeatCount="indefinite"/>
+    ADD EXPENSE
+  </text>
+  <text x="400" y="25" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11" letter-spacing="2" opacity="0">
+    <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1;1;0" dur="18s" repeatCount="indefinite"/>
+    MONTHLY ANALYSIS
+  </text>
+</svg>
