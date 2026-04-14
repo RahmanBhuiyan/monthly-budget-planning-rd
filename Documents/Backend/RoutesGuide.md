@@ -132,25 +132,17 @@ Filters by `user_id` + `id`. Deletes the row.
 
 ### Helpers (module-level)
 
-`_get_month_year(request)` — pulls `month` and `year` from the query string and validates they're integers.
+`_get_month_year(request)` — pulls `month` and `year` from the query string. Returns ints (or None if absent).
 
-`_get_total_spent(user_id, month, year)` — aggregates `SUM(amount)` for the user's expenses in the period. Returns `Decimal('0')` when there are none.
+`_get_total_spent(user_id, month, year)` — aggregates `SUM(amount)` for the user's expenses in the period. Returns a Python `float` (`float(result) if result else 0.0`).
+> Note: returning `float` mid-pipeline contributes to the precision-leak issue (`SRS.md §6.5`). The right fix is to keep things in `Decimal` until serialization.
 
 ### `GET /summary`
 Returns income, budget, total_spent, saved, budget_remaining, highest_category, avg_daily_spending.
 
-**The AttributeError bug (`SRS.md §6.4`):**
-After a non-exhaustive `None` check on `budget`, the code references `budget.amount`. If `budget` is `None`, raises `AttributeError` → 500.
+The handler guards every `budget.amount` and `income.amount` access with `if budget else 0.0` / `if income else 0.0`. There is no None-crash in the current code (an earlier audit claim of an AttributeError here was wrong).
 
-```python
-budget_remaining = (budget.amount - total_spent) if budget else None
-# but elsewhere:
-'budget': budget.amount   # <-- crashes when budget is None
-```
-
-Fix: guard every `.amount` access, or build the response dict with explicit `budget.amount if budget else None` everywhere.
-
-**Tag any fix `[BIZ-QC-NEEDED]`** — `saved` and `budget_remaining` are protected formulas.
+The handler does coerce `Numeric` to `float` on every read (`float(income.amount)`, `float(budget.amount)`, `float(result)` inside `_get_total_spent`). Both `saved` and `budget_remaining` therefore inherit float arithmetic — a `[BIZ-QC-NEEDED]` cleanup that's part of the broader `to_dict()` precision fix (`SRS.md §6.5`).
 
 ### `GET /categories`
 Returns `[{category, total}]` grouped by category.
@@ -179,8 +171,7 @@ The "suggestion" + "warning" double-fire at 80% is intentional. Any change to th
 | Login timing attack | `auth.py` | §6.6 |
 | `savings_goal` reset | `budget.py` | §6.1 |
 | Date parsing 500 | `expenses.py` | §6.3 |
-| Reports None crash | `reports.py` | §6.4 |
-| `to_dict()` precision leak | `models.py` | §6.5 |
+| `to_dict()` + `_get_total_spent` precision leak (Numeric → float) | `models.py`, `reports.py` | §6.5 |
 | No tests | everywhere | §6.9 |
 
 Each maps to a separate `bugfix/` ticket per `CLAUDE.md §6` (one ticket per branch).

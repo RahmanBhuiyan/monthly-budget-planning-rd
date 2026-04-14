@@ -27,7 +27,7 @@ class User(db.Model):
 
     incomes  = db.relationship('Income',  backref='user', lazy=True)
     budgets  = db.relationship('Budget',  backref='user', lazy=True)
-    # NOTE: no expenses relationship declared — see §4 below
+    expenses = db.relationship('Expense', backref='user', lazy=True)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -40,13 +40,14 @@ class User(db.Model):
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'created_at': self.created_at.isoformat()
         }
 ```
 
 **Watch-outs:**
 - `password_hash` must never be in `to_dict()`. It currently isn't — keep it that way.
 - `created_at` defaults via lambda to ensure each insert gets a fresh timestamp, not the import-time value.
+- `to_dict()` will raise `AttributeError` if `created_at` is `None` (it shouldn't be — the default lambda fires on insert — but if a row is constructed without `db.session.add()`/`commit()`, the default hasn't run yet).
 
 ### 2.2 `Income`
 ```python
@@ -131,10 +132,10 @@ This is `SRS.md §6.5`. Tag any fix `[BIZ-QC-NEEDED]`.
 
 | Issue | Where | Impact |
 |-------|-------|--------|
-| `User` declares `incomes`, `budgets` relationships but not `expenses` | models.py | Cannot do `user.expenses` — must query `Expense.query.filter_by(user_id=...)`. Asymmetry, not a bug. |
 | `Income` and `Budget` don't have `created_at` columns | models.py | Cannot tell when a row was first written. Add as a nullable column in a future migration. |
-| `category` has no DB-level CHECK | models.py | Validation is route-only. If anyone adds a script that writes directly to DB, garbage gets in. |
+| `category` has no DB-level CHECK constraint | models.py | Validation is route-only. If anyone adds a script that writes directly to the DB, garbage gets in. |
 | No cascade delete behavior set on relationships | models.py | If you ever `db.session.delete(user)`, related rows remain. Add `cascade='all, delete-orphan'` if/when account deletion ships. |
+| `Expense.note` defaults to `''` (empty string), not `None` | models.py | Stored value is empty string when omitted. Slightly noisy for queries that look for "no note" — `WHERE note = ''` instead of `IS NULL`. |
 
 ## 5. Adding a new model
 

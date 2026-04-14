@@ -154,13 +154,13 @@ const label = dateStr === today
     : formatHumanDate(dateStr);
 ```
 
-**Delete behavior (optimistic):**
-1. Remove from local `expenses` state immediately.
-2. Call `api.deleteExpense(id)`.
-3. On error: log to console — **no rollback**. The expense visually disappears even though it still exists.
+**Delete behavior (API-first):**
+1. `await api.deleteExpense(id)`.
+2. On success: `setExpenses(expenses.filter(e => e.id !== id))` — remove from local state.
+3. On error: `console.error('Failed to delete expense')` — **no user-visible feedback**. The expense stays on screen and the user has no idea why.
 
 **Known issues:**
-- Optimistic delete with no rollback (`SRS.md` background).
+- Delete failure is silent (only `console.error`) — UX issue, not data loss.
 - Date parsing uses `new Date(dateStr + 'T00:00:00')` — locally midnight, can be off-by-one in some TZ scenarios.
 - No filter/sort UI.
 

@@ -205,7 +205,7 @@ Recharts only. The single chart usage is `<BarChart>` in `MonthlyAnalysis.js`. I
 | Hardcoded categories | `pages/AddExpense.js` | §3 |
 | No 401 response interceptor | `services/api.js` | docs gap |
 | No catch-all 404 route | `App.js` | docs gap |
-| Optimistic delete with no rollback | `pages/ExpenseList.js` | §6 background |
+| Delete failure swallowed silently (console.error only) | `pages/ExpenseList.js` | UX gap |
 | Timezone-unsafe date parsing | `pages/ExpenseList.js` | §6 background |
 | `BottomNav` uses `<div onClick>` — accessibility | `components/BottomNav.js` | a11y gap |
 | Index-as-key in `BudgetAlerts` | `pages/BudgetAlerts.js` | quality gap |

@@ -33,9 +33,9 @@ backend/
 
 ```python
 app = Flask(__name__)
-app.config['SECRET_KEY']        = os.environ.get('SECRET_KEY', 'dev-secret')        # gap — see SRS §6.2
-app.config['JWT_SECRET_KEY']    = os.environ.get('JWT_SECRET_KEY', 'jwt-dev-secret')# gap — see SRS §6.2
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///expense_tracker.db')
+app.config['SECRET_KEY']        = os.getenv('SECRET_KEY', 'dev-secret')        # gap — see SRS §6.2
+app.config['JWT_SECRET_KEY']    = os.getenv('JWT_SECRET_KEY', 'jwt-dev-secret')# gap — see SRS §6.2
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///expense_tracker.db')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=24)
 
 CORS(app, origins=['http://localhost:7575'])   # hardcoded — gap (SRS §6.11 / §6 SEC-9)

@@ -143,21 +143,24 @@ Sorted by `date` desc.
 **200**
 ```json
 {
-  "income": 5000.00,
-  "budget": 4000.00,
-  "total_spent": 1850.25,
-  "saved": 3149.75,
-  "budget_remaining": 2149.75,
-  "highest_category": "Food",
-  "avg_daily_spending": 61.68
+  "summary": {
+    "income": 5000.00,
+    "budget": 4000.00,
+    "total_spent": 1850.25,
+    "saved": 3149.75,
+    "budget_remaining": 2149.75,
+    "highest_category": "Food",
+    "avg_daily_spending": 61.68,
+    "month": 4,
+    "year": 2026
+  }
 }
 ```
 - `saved = income - total_spent`
 - `budget_remaining = budget - total_spent`
 - `avg_daily_spending` rounds to 2 decimals.
 - `highest_category` is `"N/A"` when no expenses exist.
-- Any of `income` / `budget` may be `null` when the row is missing.
-> If `budget` is missing, the response can currently AttributeError (`SRS.md §6.4`).
+- When the income or budget row is missing, `income`/`budget` are `0.0` (NOT `null`) — the handler defaults via `float(income.amount) if income else 0.0`.
 
 ### GET /reports/categories?month=&year=
 **200**
@@ -174,24 +177,28 @@ Sorted by `date` desc.
 > No explicit `ORDER BY` in the query today — order is undefined (`SRS.md` background).
 
 ### GET /reports/alerts?month=&year=
-**200**
+**200** (warning + suggestion case at 82% usage with expenses present)
 ```json
 {
   "alerts": [
-    { "type": "warning", "message": "You have used 80% of your budget", "usage_percent": 82.5, "total_spent": 3300.00, "budget_amount": 4000.00 },
-    { "type": "suggestion", "message": "Reduce Shopping expenses this week" },
-    { "type": "info", "message": "You are well within budget" }
-  ]
+    { "type": "warning",    "message": "You have used 82% of your budget. $700.00 remaining." },
+    { "type": "suggestion", "message": "Reduce Shopping expenses this week — it is your highest spending area at $1200.00." }
+  ],
+  "usage_percent": 82.5,
+  "total_spent": 3300.00,
+  "budget_amount": 4000.00
 }
 ```
-**Alert types and triggers:**
-| Type | Trigger |
-|------|---------|
-| `info` | Default informational note |
-| `success` | Spend below 50% of budget |
-| `warning` | Usage ≥ 80% |
-| `critical` | Usage ≥ 100% |
-| `suggestion` | Usage ≥ 80% (also fires alongside `warning`) |
+
+**Alert composition rules (current behavior):**
+| Condition | Alerts emitted |
+|-----------|---------------|
+| No budget set for the month | `[info]` (single message asking the user to set a budget) |
+| `usage_percent < 80` | `[success]` |
+| `80 <= usage_percent < 100` | `[warning]` + (`suggestion` if any expenses exist) |
+| `usage_percent >= 100` | `[critical]` + (`suggestion` if any expenses exist) |
+
+Top-level fields (`usage_percent`, `total_spent`, `budget_amount`) are siblings of `alerts`. `usage_percent` is `0` and `budget_amount` is `0` when no budget exists.
 
 ---
 

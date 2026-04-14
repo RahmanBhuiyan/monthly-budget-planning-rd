@@ -82,11 +82,11 @@ The audit on `feature/audit-deep-read` surfaced these. Each is a v1 blocker unle
 ### 6.3 Date parsing crashes the API (MED — input validation)
 `routes/expenses.py:33` — `date.fromisoformat(expense_date)` has no try/except, so a malformed date returns 500 instead of 400.
 
-### 6.4 Reports endpoint can `AttributeError` (MED — robustness)
-`routes/reports.py` references `budget.amount` after a None-check that's not exhaustive. Need to guard before attribute access.
+### 6.4 Reports `categories` query has no `ORDER BY` (LOW — UX consistency)
+`routes/reports.py` `category_breakdown()` returns rows in engine-defined order. Frontend currently doesn't depend on it but tests must not assume an order either. Add `.order_by(func.sum(...).desc())` for stability.
 
-### 6.5 `to_dict()` precision leak (MED — NFR-1 violation)
-Every model's `to_dict()` casts `Numeric(10,2)` to `float` at the API boundary, defeating the `DECIMAL` storage guarantee. Send as a string or use a custom JSON encoder.
+### 6.5 `Numeric` → `float` precision leak (MED — NFR-1 violation)
+Every model's `to_dict()` casts `Numeric(10,2)` to `float` at the API boundary, defeating the `DECIMAL` storage guarantee. Plus `routes/reports.py` `_get_total_spent()` returns a `float` directly. Fix is twofold: keep values as `Decimal` through the pipeline, and serialize as string (or via a custom JSON encoder).
 
 ### 6.6 Auth timing attack (LOW — security)
 `routes/auth.py` login short-circuits the password check when the user isn't found, leaking email existence via timing. Always run the hash comparison.
@@ -108,6 +108,16 @@ CRA defaults to 3000; backend CORS expects 7575. `package.json` has no `PORT=757
 
 ### 6.12 No historical month selector (LOW — UX)
 Dashboard and Summary hardcode `new Date()`. Users cannot view past months.
+
+### 6.13 More referenced-but-missing docs in `backend/GEMINI.md` and `frontend/GEMINI.md` (LOW — docs drift)
+On top of the missing root-level Documents/ files (already addressed on this branch), the per-app GEMINI files reference six more files that don't exist:
+- `backend/Documents/testCase.md`
+- `backend/Documents/task.md`
+- `frontend/Documents/BrandGuideline.md`
+- `frontend/Documents/UserJourney.md`
+- `frontend/Documents/task.md`
+- `frontend/Documents/testCase.md`
+Decide either to create them under each app dir, or fold their concerns into the top-level Documents/ files (`TestingStrategy.md`, `projectManager/`, `Frontend/StylingGuide.md`, etc.) and remove the references from the GEMINI files. Recommended: fold + remove (less doc surface to maintain).
 
 ## 7. References
 - `CLAUDE.md` — project constitution (8 rules, branch naming, commit format)

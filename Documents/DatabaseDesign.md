@@ -38,7 +38,7 @@ Every domain table has a single owning `user_id`. Multi-user sharing is out of s
 | `password_hash` | VARCHAR(256) | NOT NULL | Werkzeug PBKDF2-SHA256 |
 | `created_at` | DATETIME | NOT NULL, default `utcnow()` | UTC |
 
-**Relationships:** `incomes`, `budgets` declared on the User model; `expenses` is owned via FK but the back-relationship is not declared (mild inconsistency — see `Documents/Backend/ModelsGuide.md`).
+**Relationships:** `incomes`, `budgets`, `expenses` declared on the User model with `backref='user'` (see `Documents/Backend/ModelsGuide.md`).
 
 ### 3.2 `incomes`
 | Column | Type | Constraints | Notes |
