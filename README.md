@@ -528,9 +528,14 @@ All 14 integration tests pass:
 
 This project follows the **claude-code-project-guide** framework:
 
-- **CLAUDE.md** — 8 governance rules enforced during development
-- **PROJECT_CONTEXT.md** — Complete project context for AI-assisted development
+- **`CLAUDE.md`** — 8 governance rules enforced during development
+- **`Documents/`** — SDLC documentation organized by department (Reference, Process, Engineering, QA, DevOps, Security)
 - **Protected business logic** — All financial calculations flagged with `[BIZ-QC-NEEDED]`
+
+## For Contributors
+
+See `CLAUDE.md` for the project constitution and `Documents/` for SDLC documentation.
+New contributors start with `Documents/Process/OnboardingPlaybook.md`.
 
 See [claude-code-project-guide](https://github.com/RahmanBhuiyan/claude-code-project-guide) for the full framework.
 
