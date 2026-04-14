@@ -500,6 +500,52 @@ body {
   text-decoration: underline;
 }
 
+/* Google Login Button */
+.google-btn-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.google-btn-wrapper > div {
+  width: 100%;
+}
+
+/* OR divider */
+.auth-divider {
+  position: relative;
+  text-align: center;
+  margin: 16px 0 20px;
+  color: #aaa;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #e0e0e0;
+}
+
+.auth-divider::before {
+  left: 0;
+}
+
+.auth-divider::after {
+  right: 0;
+}
+
+.auth-divider span {
+  background: #fff;
+  padding: 0 12px;
+}
+
 /* ===========================
    STEP INDICATOR
    =========================== */

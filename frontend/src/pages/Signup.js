@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { HiCurrencyDollar } from 'react-icons/hi';
 import { signup } from '../services/api';
+import GoogleLoginButton from '../components/GoogleLoginButton';
 
 function Signup() {
   const [username, setUsername] = useState('');
@@ -32,6 +33,17 @@ function Signup() {
         <h1 className="auth-title">Create Account</h1>
         <p className="auth-subtitle">Start tracking your expenses today</p>
         {error && <div className="error-msg">{error}</div>}
+
+        <GoogleLoginButton
+          text="signup_with"
+          onSuccess={() => navigate('/setup/income')}
+          onError={(msg) => setError(msg)}
+        />
+
+        <div className="auth-divider">
+          <span>or</span>
+        </div>
+
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Username</label>
