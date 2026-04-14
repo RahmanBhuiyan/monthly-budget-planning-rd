@@ -31,3 +31,10 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+
+# Claude Code runtime (settings/agents/commands/hooks ARE tracked;
+# transient runtime state is not)
+.claude/scheduled_tasks.lock
+.claude/cache/
+.claude/sessions/
+.claude/*.local.json
