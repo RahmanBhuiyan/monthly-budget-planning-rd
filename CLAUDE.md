@@ -1,6 +1,6 @@
 # CLAUDE.md — Project Constitution
 > This file is the law. Claude (and every other contributor) must follow every rule below without exception.
-> Updated 2026-04-14 to reflect the SDLC documentation restructure on `feature/audit-deep-read`.
+> Updated 2026-04-14 to reflect the SDLC documentation restructure on `feature/audit-deep-read` and to add Rules 9–12 (permission gates for file edits, git remote operations, the master-branch manual-only rule, and the Docs-First-Then-Code rule).
 
 ## Project
 **Smart Expense & Budget Tracker** — Personal finance management system.
@@ -10,7 +10,7 @@
 
 ---
 
-## The 8 Rules
+## The 12 Rules
 
 ### 1. Read Before Write
 Before changing any file, read it + every model/service it imports.
@@ -48,6 +48,23 @@ All database access goes through Flask routes → SQLAlchemy models. No raw SQL 
 
 ### 8. If Unsure → Escalate, Don't Guess
 Uncertain about business logic? Ask the user. Wrong guess on financial calculations costs more than delay.
+
+### 9. Ask Before Any File Mutation
+Do not create, update, modify, rename, or delete any file or folder without first stating the intended change and getting explicit user approval. Applies to all Write / Edit / NotebookEdit / file-mutating Bash actions across code, docs, configs, and scratch files. Read-only inspection (Read, Grep, Glob, Explore subagent) does not require approval.
+
+### 10. Ask Before Any Git Remote Operation
+Never run `git push`, `git pull`, `git fetch`, `git merge`, `gh pr merge`, or any command that contacts a remote without first naming the exact command and getting explicit per-command approval from the user. Local-only git inspection (`status`, `log`, `diff`) is fine; commit creation still falls under Rule 9.
+
+### 11. Never Commit / Push / Merge Into `master`
+Claude must never run `git commit`, `git push`, `git merge`, `git rebase`, `gh pr merge`, or any other write operation that targets the `master` branch — neither directly nor by merging a feature branch into it. All `master` writes are performed **manually by a human**. Claude may only: read `master` (`git log`, `git diff`, `git show`), branch *off* `master` into `feature/`, `bugfix/`, or `hotfix/` branches, and prepare PRs for human review and merge. If asked to "commit to master," "push to master," or "merge this into master," Claude must refuse and cite this rule. This rule applies to the `master` branch specifically; other branches remain subject to Rules 9 and 10.
+
+### 12. Docs First, Then Code
+For any new feature, new endpoint, schema change, or behavior change: the affected files under `Documents/` MUST be drafted and committed **before** any code is written for that change. The order is: **(1) docs PR merged → (2) code PR opened.** Two PRs, in order, never combined.
+
+- A feature ticket is **not Ready** (per `Documents/Process/DefinitionOfReady.md`) until the doc deltas are drafted in the ticket body or a precursor PR.
+- A feature ticket is **not Done** (per `Documents/Process/DefinitionOfDone.md`) until the docs PR landed first and the code PR cites it.
+- Bug fixes that don't change behavior are exempt. Pure refactors (no behavior change) are exempt. Everything else: **no docs = no code.**
+- Rationale: the Google OAuth backfill incident (commit `2a917fa`) shipped working code with zero matching docs, leaving `Documents/` permanently behind. This rule prevents that class of drift at the source.
 
 ---
 
@@ -139,3 +156,7 @@ The full standards live in dedicated docs. Do not duplicate them here.
 - Touching `.env`, `*.db`, `*.sqlite3`, or anything matching `.gitignore`.
 - Deploying to production without the `Documents/DevOps/ReleaseRunbook.md` pre-flight checklist passing.
 - Committing changes to one of the protected formulas (Rule 2) without `[BIZ-QC-NEEDED]` + product owner sign-off.
+- Creating, modifying, or deleting any file/folder without explicit user approval (Rule 9).
+- Running `git push`, `git pull`, `git fetch`, `git merge`, or `gh pr merge` without explicit per-command approval (Rule 10).
+- Any commit, push, merge, or rebase that writes to the `master` branch — master is human-only (Rule 11).
+- Writing or committing code for a new feature/endpoint/schema change before the matching docs PR has landed (Rule 12 — Docs First, Then Code).

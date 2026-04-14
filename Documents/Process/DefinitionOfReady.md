@@ -17,6 +17,7 @@ A ticket is **Ready** when ALL of these are true. If any is missing, the ticket 
 - [ ] **Branch name** decided per `Documents/Process/GitWorkFlow.md` §2.
 - [ ] **Effort estimate**: T-shirt size (S / M / L / XL). XL must be split before it's Ready.
 - [ ] No unanswered questions in the ticket comments.
+- [ ] **Docs deltas drafted** (per CLAUDE.md Rule 12 — Docs First, Then Code). The ticket body lists every file under `Documents/` that will change, with a one-line summary of each edit. A ticket without drafted doc deltas is **not Ready**. Bug fixes with no behavior change and pure refactors are exempt.
 
 ## Plus, by ticket type
 

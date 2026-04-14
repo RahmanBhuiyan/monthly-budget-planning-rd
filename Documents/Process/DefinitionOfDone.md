@@ -8,6 +8,7 @@
 
 A ticket is **Done** when ALL of these are true:
 
+- [ ] **Docs PR landed first** (per CLAUDE.md Rule 12 — Docs First, Then Code). For any new feature, endpoint, schema change, or behavior change, the documentation PR must be merged to `master` *before* the code PR is opened. The code PR description must cite the docs PR by number/SHA. Bug fixes with no behavior change and pure refactors are exempt.
 - [ ] **Code merged to `master`** via PR with at least one approving review.
 - [ ] **All acceptance criteria** from the ticket pass (manually verified or by automated test).
 - [ ] **Tests added or updated**: at minimum, one regression test for any bug; new code paths covered to the targets in `Documents/QA/TestingStrategy.md` §1.
@@ -69,7 +70,7 @@ On top of the feature/bug checklist:
 ## Negative criteria — Done is NOT:
 - "It works on my machine."
 - "Tests pass except for these unrelated ones I'll fix later."
-- "I'll update the docs in a follow-up PR."
+- "I'll update the docs in a follow-up PR." (Rule 12 inverts this — docs come *first*, in their own PR, before the code PR is even opened.)
 - "It compiles."
 - "The PR is approved" (approval ≠ merged ≠ verified ≠ Done).
 
