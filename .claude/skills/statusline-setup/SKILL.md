@@ -33,8 +33,8 @@ ctx:78%  tok:12.4k  +145/-23   │   5hr:62% reset 4pm · 7d:48% reset thu 9am
 
 ## Files
 
-- `.claude/statusline-command.sh` — the script (executable, POSIX shell)
-- `.claude/SKILL.md` — this doc
+- `.claude/skills/statusline-setup/statusline-command.sh` — the script (executable, POSIX shell)
+- `.claude/skills/statusline-setup/SKILL.md` — this doc
 - `.claude/settings.json` — references the script via `statusLine.command`
 
 ## Installation
@@ -43,13 +43,13 @@ Already wired up on this branch. To install on a fresh clone:
 
 1. Make the script executable:
    ```bash
-   chmod +x .claude/statusline-command.sh
+   chmod +x .claude/skills/statusline-setup/statusline-command.sh
    ```
 2. Confirm `.claude/settings.json` has the `statusLine` block (added on this branch).
 3. Smoke test:
    ```bash
    echo '{"workspace":{"current_dir":"'$(pwd)'"},"model":{"id":"claude-opus-4-6"}}' \
-     | sh .claude/statusline-command.sh
+     | sh .claude/skills/statusline-setup/statusline-command.sh
    ```
    You should see the colored two-row output.
 4. Open Claude Code in this project — the statusline appears at the bottom.

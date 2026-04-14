@@ -53,6 +53,6 @@
 
   "statusLine": {
     "type": "command",
-    "command": "sh $CLAUDE_PROJECT_DIR/.claude/statusline-command.sh"
+    "command": "sh $CLAUDE_PROJECT_DIR/.claude/skills/statusline-setup/statusline-command.sh"
   }
 }
