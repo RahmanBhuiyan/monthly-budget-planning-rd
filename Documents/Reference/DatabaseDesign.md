@@ -35,7 +35,8 @@ Every domain table has a single owning `user_id`. Multi-user sharing is out of s
 | `id` | INTEGER | PK, autoincrement | |
 | `username` | VARCHAR(80) | NOT NULL, UNIQUE | |
 | `email` | VARCHAR(120) | NOT NULL, UNIQUE | No format validation today (`SRS.md §6.7`) |
-| `password_hash` | VARCHAR(256) | NOT NULL | Werkzeug PBKDF2-SHA256 |
+| `password_hash` | VARCHAR(256) | **nullable** | Werkzeug PBKDF2-SHA256. NULL only for users who signed up via Google and never set a password (`POST /auth/google`). |
+| `google_id` | VARCHAR(100) | nullable, UNIQUE | Google subject (`sub`) claim from a verified Google ID token. NULL for email/password users. Never returned by `User.to_dict()` — server-side only. |
 | `created_at` | DATETIME | NOT NULL, default `utcnow()` | UTC |
 
 **Relationships:** `incomes`, `budgets`, `expenses` declared on the User model with `backref='user'` (see `Documents/Engineering/Engineering/Backend/ModelsGuide.md`).
@@ -87,7 +88,8 @@ No unique constraint — the same user can log multiple expenses on the same dat
 |-------|--------|----------------|
 | `users(id)` PK | engine | by-id lookup |
 | `users(username)` UNIQUE | model | signup uniqueness check |
-| `users(email)` UNIQUE | model | login lookup, signup uniqueness |
+| `users(email)` UNIQUE | model | login lookup, signup uniqueness, Google account-linking lookup |
+| `users(google_id)` UNIQUE | model | Google login lookup (`POST /auth/google`); nullable so non-Google users do not consume index slots |
 | `incomes(user_id, month, year)` UNIQUE | model | upsert lookup, GET by month |
 | `budgets(user_id, month, year)` UNIQUE | model | upsert lookup, GET by month |
 | `expenses(id)` PK | engine | DELETE by id |
@@ -130,7 +132,8 @@ See `Documents/DevOps/MigrationPlan.md` §3 for the full type-sanity-check proce
 
 | Endpoint | Query shape | Notes |
 |----------|------------|-------|
-| `POST /auth/login` | `User.query.filter_by(email=…).first()` | Uses unique index |
+| `POST /auth/login` | `User.query.filter_by(email=…).first()` | Uses unique index. Rejects rows where `password_hash IS NULL` (Google-only accounts). |
+| `POST /auth/google` | `User.query.filter_by(google_id=…).first()` then optional fallback `filter_by(email=…)` | Two unique-index hits worst case (Google lookup, then email-link lookup) |
 | `POST /income` (upsert) | `Income.query.filter_by(user_id, month, year).first()` | Uses composite unique |
 | `GET /expenses?month=&year=` | `Expense.query.filter(user_id=…, extract('month', date)=…, extract('year', date)=…).order_by(date.desc())` | No covering index — full per-user scan |
 | `GET /reports/summary` | `SUM(amount)` on filtered expenses | Aggregates across the same per-user scan |
@@ -176,7 +179,8 @@ Table users {
   id integer [pk, increment]
   username varchar(80) [unique, not null]
   email varchar(120) [unique, not null]
-  password_hash varchar(256) [not null]
+  password_hash varchar(256)
+  google_id varchar(100) [unique]
   created_at datetime [not null]
 }
 Table incomes {

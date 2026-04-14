@@ -28,6 +28,7 @@ frontend/
       api.js               # Axios instance + every API method
     components/
       BottomNav.js         # nav (sidebar on desktop, bottom bar on mobile)
+      GoogleLoginButton.js # renders Google Identity Services button; calls api.googleLogin()
     pages/
       Welcome.js
       Login.js
@@ -125,7 +126,7 @@ This duplication is a polish ticket — a single response interceptor would repl
 
 Every API call is exported as a named function:
 ```js
-signup(data), login(data),
+signup(data), login(data), googleLogin(credential),
 setIncome(data), getIncome(month, year),
 setBudget(data), getBudget(month, year),
 addExpense(data), getExpenses(month, year), deleteExpense(id),
@@ -135,6 +136,7 @@ Pages import only what they need from `../services/api`. **No bare `fetch()` or 
 
 ## 7. Authentication (frontend perspective)
 
+### Email + password
 ```
 1. User submits Login form.
 2. api.login({email, password}) → { token, user }.
@@ -144,7 +146,24 @@ Pages import only what they need from `../services/api`. **No bare `fetch()` or 
 6. Logout = localStorage.clear() + navigate('/').
 ```
 
-**Security implication:** localStorage is readable by any JS that runs in the page (including injected scripts). The XSS surface is the JWT theft vector — covered in `Documents/Security/SecurityAndThreatModel.md` §3.3.
+### Google sign-in
+The `<GoogleLoginButton />` component is rendered on Login and Signup pages alongside the email form (with an "OR" divider). Flow:
+```
+1. public/index.html loads <script src="https://accounts.google.com/gsi/client" async defer>.
+2. <GoogleLoginButton /> waits for window.google to exist, then:
+   - window.google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback })
+   - window.google.accounts.id.renderButton(buttonRef.current, {theme, size, ...})
+3. User clicks the rendered Google button → Google handles the OAuth dance → fires the callback
+   with response.credential (a Google ID token JWT).
+4. Callback calls api.googleLogin(response.credential) → POST /api/v1/auth/google.
+5. Backend verifies the token with Google's public keys (server-side, never trusts the frontend),
+   resolves to a user (existing google_id, email-link, or new signup), returns { token, user }.
+6. Same as steps 3-6 above: store in localStorage, redirect into the app.
+```
+
+**`GOOGLE_CLIENT_ID`** is currently hardcoded in `src/components/GoogleLoginButton.js:4`. Move to `process.env.REACT_APP_GOOGLE_CLIENT_ID` when parameterizing the API base URL (`SRS §6.14`).
+
+**Security implication:** localStorage is readable by any JS that runs in the page (including injected scripts). The XSS surface is the JWT theft vector — covered in `Documents/Security/SecurityAndThreatModel.md` §3.3. The Google ID token itself is single-use (consumed by the backend immediately) and never persisted, so its exposure window is negligible compared to the long-lived app JWT.
 
 ## 8. Data fetching pattern
 
@@ -202,6 +221,7 @@ Recharts only. The single chart usage is `<BarChart>` in `MonthlyAnalysis.js`. I
 | Gap | Where | SRS ref |
 |-----|-------|---------|
 | Hardcoded API URL | `services/api.js` | §6 SEC-7 area |
+| Hardcoded Google client ID | `components/GoogleLoginButton.js:4` | `SRS §6.14` |
 | Hardcoded categories | `pages/AddExpense.js` | §3 |
 | No 401 response interceptor | `services/api.js` | docs gap |
 | No catch-all 404 route | `App.js` | docs gap |

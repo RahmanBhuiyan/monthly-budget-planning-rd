@@ -55,6 +55,7 @@ The backend's CORS allow-list in `backend/app.py` is hardcoded to `http://localh
 | `SECRET_KEY` | yes in prod | `'dev-secret'` | Flask session signing |
 | `JWT_SECRET_KEY` | yes in prod | `'jwt-dev-secret'` | JWT signing — rotate compromises every existing token |
 | `DATABASE_URL` | no | `sqlite:///expense_tracker.db` | SQLAlchemy URL — e.g. `mysql+pymysql://user:pass@host/db` |
+| `GOOGLE_CLIENT_ID` | yes if Google login used | none | Google OAuth 2.0 client ID. Used by `routes/auth.py` to verify Google ID tokens via `id_token.verify_oauth2_token()`. If unset, `POST /auth/google` will reject every request with 401 (token audience check fails). Get from Google Cloud Console → APIs & Services → Credentials. |
 
 > The hardcoded fallbacks are a v1 blocker (`SRS.md §6.2`). Production must fail-fast when these are unset.
 
@@ -63,10 +64,13 @@ A `backend/.env.example` should exist (currently doesn't — open as a `chore/` 
 SECRET_KEY=
 JWT_SECRET_KEY=
 DATABASE_URL=sqlite:///expense_tracker.db
+GOOGLE_CLIENT_ID=
 ```
 
 ### Frontend
-The frontend currently never reads `process.env`. The Axios base URL is hardcoded to `http://localhost:7576/api/v1` in `src/services/api.js`. To deploy beyond localhost, that needs to be parameterized via `REACT_APP_API_BASE_URL` (open as a `feature/` ticket).
+The frontend currently never reads `process.env`. The Axios base URL is hardcoded to `http://localhost:7576/api/v1` in `src/services/api.js`, and the Google OAuth client ID is hardcoded in `src/components/GoogleLoginButton.js:4`. To deploy beyond localhost, both need to be parameterized via `REACT_APP_API_BASE_URL` and `REACT_APP_GOOGLE_CLIENT_ID` (open as a `feature/` ticket — see `SRS.md §6.14`).
+
+The frontend also pulls the Google Identity Services SDK via a `<script src="https://accounts.google.com/gsi/client">` tag in `public/index.html`. No build-time dependency.
 
 ## 5. Database
 

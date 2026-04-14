@@ -54,6 +54,13 @@
 | I-06 | POST /login wrong password → 401 | ❌ | |
 | I-07 | POST /login unknown email → 401 | ❌ | |
 | I-08 | POST /login missing field → 400 | ❌ | |
+| I-08a | POST /login on Google-only account (`password_hash IS NULL`) → 401 | ❌ | regression for `routes/auth.py:45` short-circuit |
+| I-08b | POST /auth/google missing `credential` → 400 | ❌ | |
+| I-08c | POST /auth/google invalid credential (mocked `verify_oauth2_token` raises `ValueError`) → 401 | ❌ | mock `google.oauth2.id_token.verify_oauth2_token` |
+| I-08d | POST /auth/google new user creates row with `password_hash=NULL`, `google_id=sub` | ❌ | |
+| I-08e | POST /auth/google with email matching existing email/password user links the Google ID (no duplicate row) | ❌ | account-linking flow |
+| I-08f | POST /auth/google username collision suffixes correctly (`name`, `name1`, `name2`) | ❌ | parametrize 3 collisions |
+| I-08g | POST /auth/google never returns `google_id` in response `user` object | ❌ | regression-critical (privacy boundary) |
 
 ### `routes/income.py`
 | # | Test | Status | Notes |
@@ -134,6 +141,9 @@
 | # | Test | Status | Notes |
 |---|------|--------|-------|
 | F-13 | Login submit success stores token + redirects | ❌ | sample shown |
+| F-13a | GoogleLoginButton renders on Login and Signup pages | ❌ | mock `window.google.accounts.id` |
+| F-13b | GoogleLoginButton callback success stores token + redirects | ❌ | mock `api.googleLogin` resolved |
+| F-13c | GoogleLoginButton callback failure shows error, no token stored | ❌ | mock `api.googleLogin` rejected with 401 |
 | F-14 | Login submit 401 shows error, no token stored | ❌ | sample shown |
 | F-15 | Signup submit success → onboarding flow | ❌ | |
 | F-16 | Signup submit 409 shows error | ❌ | |

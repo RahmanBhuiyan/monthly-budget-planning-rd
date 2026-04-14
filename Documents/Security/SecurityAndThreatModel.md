@@ -30,7 +30,7 @@
 
 ## 3. STRIDE-light per surface
 
-### 3.1 `/auth/signup` and `/auth/login`
+### 3.1 `/auth/signup`, `/auth/login`, and `/auth/google`
 | Threat | Status | Notes |
 |--------|--------|-------|
 | **S**poofing — attacker tries another user's password | Mitigated | Werkzeug bcrypt-style hash; rate-limit not yet present (gap) |
@@ -39,6 +39,11 @@
 | **I**nformation disclosure — email enumeration | **Open** | Login short-circuits when user not found → timing leak (`SRS.md §6.6`) |
 | **D**enial of service — brute-force credential stuffing | **Open** | No rate limiting; no account lockout (gap) |
 | **E**levation of privilege | N/A | No roles in the system |
+
+**`/auth/google`-specific notes:**
+- The frontend's POST body (`credential`) is **never trusted as-is**. The backend always passes it through `id_token.verify_oauth2_token(credential, Request(), GOOGLE_CLIENT_ID)`, which validates: (a) the JWT signature against Google's rotating public keys, (b) the `aud` claim matches our `GOOGLE_CLIENT_ID`, (c) the token isn't expired. Any failure → 401.
+- **Account-linking trust assumption:** if the verified Google `email` matches an existing local account, the backend links the Google ID to that account without further proof. This is safe because Google has already verified the user owns that email — but it means a Google account compromise gives the attacker the linked local account too. Acceptable for v1; revisit if/when high-value accounts exist.
+- **No CSRF concern** on `/auth/google` for the same reason as the rest of the API: Bearer-token model, no ambient credentials.
 
 ### 3.2 `/income`, `/budget`, `/expenses`, `/reports/*` (JWT-protected)
 | Threat | Status |
@@ -71,6 +76,8 @@
 | SEC-8 | `app.run(debug=True)` hardcoded — Werkzeug debugger is RCE if it ever ships | HIGH (if deployed) | new ticket |
 | SEC-9 | CORS allow-list hardcoded to one origin — can't deploy without code change | LOW | new ticket |
 | SEC-10 | No HTTPS at the app layer (must be terminated upstream) | INFRA | deployment runbook |
+| SEC-11 | `GOOGLE_CLIENT_ID` hardcoded on the frontend (`components/GoogleLoginButton.js:4`); not a secret but blocks per-environment client IDs | LOW | `SRS §6.14` |
+| SEC-12 | `/auth/google` shares `/auth/login` and `/auth/signup`'s lack of rate-limiting (SEC-5); brute-forcing Google tokens is much harder, but the same lockout policy should cover it | LOW | extend SEC-5 ticket |
 
 ## 5. Secrets management
 - **Today:** `.env` files, gitignored. Defaults in `app.py` for dev convenience.

@@ -3,7 +3,7 @@
 All endpoints are prefixed `/api/v1`. JSON in, JSON out. Errors use the shape `{"error": "...", "code": <http_status>}`.
 
 **Base URL (dev):** `http://localhost:7576/api/v1`
-**Auth:** `Authorization: Bearer <jwt>` on every endpoint except `/auth/signup` and `/auth/login`. JWT TTL is 24 hours.
+**Auth:** `Authorization: Bearer <jwt>` on every endpoint except `/auth/signup`, `/auth/login`, and `/auth/google`. JWT TTL is 24 hours.
 
 ## Conventions
 - Money values: stored as `DECIMAL(10,2)`; currently serialized as JSON `number` (precision-leak — see `SRS.md §6.5`).
@@ -35,6 +35,28 @@ All endpoints are prefixed `/api/v1`. JSON in, JSON out. Errors use the shape `{
 { "email": "alice@example.com", "password": "hunter2" }
 ```
 **200** same shape as signup. **400** missing field. **401** bad credentials.
+
+> Login also rejects (401) any account whose `password_hash` is `NULL` — i.e. a user who signed up via Google and never set a password. Such users must use `POST /auth/google`.
+
+### POST /auth/google
+Sign in or sign up with a Google ID token (returned by Google Identity Services on the frontend).
+
+**Body**
+```json
+{ "credential": "<google-id-token-JWT>" }
+```
+
+The backend verifies the credential server-side via `google.oauth2.id_token.verify_oauth2_token(...)` against the configured `GOOGLE_CLIENT_ID` env var. **The frontend's claim is never trusted** — only the verified `sub` and `email` claims from Google are used.
+
+**200** — same response shape as `/auth/login` (`{ message, token, user }`). One of three flows runs:
+1. **Existing Google user** (`users.google_id == sub`) → log in.
+2. **Email match** (`users.email == email`, no `google_id`) → link the Google ID to the existing account, then log in.
+3. **New user** → create row with `username` derived from Google `name` (collision-suffixed `name1`, `name2`, …), `email`, `google_id`. `password_hash` stays `NULL`.
+
+**400** missing `credential`. **401** invalid / expired Google token, wrong audience, or signature failure.
+
+> The response `user` object never exposes `google_id` (kept server-side — `User.to_dict()` excludes it).
+> Setup: `GOOGLE_CLIENT_ID` must be set on the backend (`Documents/DevOps/SetupAndDeployment.md §4`). The frontend's client ID is hardcoded in `frontend/src/components/GoogleLoginButton.js` (gap — should move to env).
 
 ---
 
