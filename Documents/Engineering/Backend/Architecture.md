@@ -8,6 +8,7 @@
 - **Auth:** Flask-JWT-Extended 4.7.1 (HS256, 24h TTL)
 - **CORS:** Flask-CORS 5.0.1 (allow-list hardcoded to `http://localhost:7575`)
 - **Hashing:** Werkzeug 3.1.3 (`generate_password_hash`)
+- **Google OAuth:** `google-auth` 2.49.2 + `requests` 2.32.5 (server-side ID-token verification only — no client-side library)
 - **Env:** python-dotenv 1.1.0
 - **DB:** SQLite (dev), MySQL (production target)
 - **Port:** 7576
@@ -19,7 +20,7 @@ backend/
   models.py            # SQLAlchemy models (User, Income, Budget, Expense)
   routes/
     __init__.py        # empty — could host shared constants
-    auth.py            # /api/v1/auth/{signup,login}
+    auth.py            # /api/v1/auth/{signup,login,google}
     income.py          # /api/v1/income (POST upsert, GET)
     budget.py          # /api/v1/budget (POST upsert, GET)
     expenses.py        # /api/v1/expenses (POST, GET, DELETE) + VALID_CATEGORIES
@@ -102,16 +103,32 @@ One blueprint per file. New resources get a new file (don't pile routes into an 
        create_access_token(identity=str(user.id))
        respond { token, user }
 
-3. Frontend stores token in localStorage (XSS exposure — SRS §6 SEC-7)
+3. POST /auth/google
+       receives { credential: <google-id-token> }
+       id_token.verify_oauth2_token(credential, Request(), GOOGLE_CLIENT_ID)
+           → raises ValueError on bad signature / wrong audience / expired
+           → returns {sub, email, name, ...} on success
+       Three flows:
+         a. existing user where google_id == sub        → log in
+         b. existing user where email == email          → link google_id, log in
+         c. otherwise                                   → create user (password_hash=NULL,
+                                                          username derived from name with
+                                                          collision suffix)
+       create_access_token(identity=str(user.id))
+       respond { token, user }
+
+4. Frontend stores token in localStorage (XSS exposure — SRS §6 SEC-7)
        Axios interceptor attaches `Authorization: Bearer <token>` on every request
 
-4. Protected endpoint:
+5. Protected endpoint:
        @jwt_required()
        user_id = int(get_jwt_identity())
        … query filtered by user_id …
 ```
 
 JWT payload is intentionally minimal: just `sub = str(user.id)`. We do not embed username/email/roles — the route looks up what it needs.
+
+**Google OAuth security boundary:** The frontend's role is *only* to obtain a Google ID token from Google Identity Services and POST it. The backend never trusts any user-identifying claim from the frontend — only the verified `sub` and `email` returned by `id_token.verify_oauth2_token()`. `GOOGLE_CLIENT_ID` (the audience) must match the client ID Google issued the token for, or verification raises `ValueError`. Account-linking by email assumes Google has already verified the user owns that email — which it does for Google-authenticated accounts.
 
 ## 7. Error handling pattern
 There is no global error handler today. Each route returns `jsonify({'error': '...', 'code': N}), N` itself. Two consequences:
@@ -155,5 +172,5 @@ if __name__ == '__main__':
 | A new resource | a new `routes/<new>.py` blueprint, registered in `app.py` |
 | A new model | `models.py` (one file, no per-model file split until it grows past ~5 models) |
 | A shared validation helper | new file `routes/_utils.py`; underscore prefix marks it as internal |
-| A new env var | `app.py` config block, plus `backend/.env.example` (to be created) and `Documents/DevOps/SetupAndDeployment.md` §4 |
+| A new env var | read with `os.getenv(...)` at module top-level (see `routes/auth.py:10` for `GOOGLE_CLIENT_ID`) or in `app.py` config block; plus `backend/.env.example` (to be created) and `Documents/DevOps/SetupAndDeployment.md` §4 |
 | A constant used by multiple routes | `routes/__init__.py` (today only `VALID_CATEGORIES` qualifies but lives in `expenses.py` — fine until a second consumer appears) |

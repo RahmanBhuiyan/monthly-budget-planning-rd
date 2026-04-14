@@ -49,6 +49,7 @@
 | FEAT-11 | Custom categories (replace hardcoded `VALID_CATEGORIES`) | MED | OPEN | — | New `categories` table + endpoint |
 | FEAT-12 | Structured logging on auth + financial mutations | MED | OPEN | — | `SecurityAndThreatModel §7` |
 | FEAT-13 | Create `.env.example` for backend | LOW | OPEN | — | `SetupAndDeployment.md §4` |
+| FEAT-14 | Parameterize hardcoded Google `client_id` (`REACT_APP_GOOGLE_CLIENT_ID`) | LOW | OPEN | — | `SRS §6.14` · pairs with FEAT-3 |
 
 ## Docs cleanup
 
@@ -56,6 +57,7 @@
 |----|-------|--------|-------|
 | DOCS-1 | Resolve PROJECT_CONTEXT.md root→Documents move | OPEN | Pre-existing untracked move with audit edits inside; needs author decision |
 | DOCS-2 | Decide on the 6 missing per-app docs (`backend/GEMINI.md`, `frontend/GEMINI.md` references) | OPEN | `SRS §6.13` · fold into top-level Documents/ + remove references is recommended |
+| DOCS-3 | Backfill Google OAuth documentation across `Documents/` (post-hoc for commit `2a917fa`) | DONE | branch `docs/oauth-backfill` · ApiReference, DatabaseDesign, SRS, Backend/Frontend Architecture, ModelsGuide, Security, SetupAndDeployment, TestingChecklist, ADR-0004 · motivated Rule 12 |
 
 ---
 

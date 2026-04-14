@@ -23,6 +23,8 @@ A personal finance web app that lets a single user log daily expenses against a 
 | FR-A2 | A returning user can log in with `email` + `password` and receive a JWT (24-hour expiry). |
 | FR-A3 | All non-auth endpoints require `Authorization: Bearer <jwt>`. |
 | FR-A4 | The frontend stores the JWT in `localStorage` and attaches it via Axios request interceptor. |
+| FR-A5 | A user can sign in or sign up with Google via `POST /auth/google`. The frontend obtains a Google ID token from Google Identity Services; the backend verifies it server-side against `GOOGLE_CLIENT_ID` and never trusts the frontend's claims. |
+| FR-A6 | If the Google `email` matches an existing email/password account, the Google ID is linked to that account (no duplicate user is created). Otherwise a new account is created with `password_hash = NULL` and a username derived from the Google `name` (collision-suffixed). |
 
 ### 4.2 Monthly Income
 | ID | Requirement |
@@ -108,6 +110,9 @@ CRA defaults to 3000; backend CORS expects 7575. `package.json` has no `PORT=757
 
 ### 6.12 No historical month selector (LOW — UX)
 Dashboard and Summary hardcode `new Date()`. Users cannot view past months.
+
+### 6.14 Google `client_id` hardcoded on the frontend (LOW — config hygiene)
+`frontend/src/components/GoogleLoginButton.js:4` has the OAuth client ID baked into the source. It's not a secret (Google client IDs are public by design), but parameterizing via `REACT_APP_GOOGLE_CLIENT_ID` would let dev/staging/prod use distinct IDs. Pairs naturally with FEAT-3 (Axios base URL parameterization).
 
 ### 6.13 More referenced-but-missing docs in `backend/GEMINI.md` and `frontend/GEMINI.md` (LOW — docs drift)
 On top of the missing root-level Documents/ files (already addressed on this branch), the per-app GEMINI files reference six more files that don't exist:

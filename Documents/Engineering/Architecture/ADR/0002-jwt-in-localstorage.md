@@ -31,7 +31,7 @@ Store the JWT in `localStorage` under the key `token`. Attach it via an Axios re
 |--------|------|------|---------------|
 | httpOnly cookie + CSRF | XSS cannot read the token; browser handles attachment | Backend must read from cookie not header; CSRF token machinery on every state-changing request; CORS preflight more complex; testing harder | Multi-PR change touching every API call site and the auth layer; deferred until v1 hardening |
 | In-memory only (React state) | XSS still can't exfiltrate easily; no persistence beyond tab | Token lost on every page reload — user is logged out — abysmal UX | UX cost too high for the security gain at our scale |
-| OAuth/OIDC with an external provider | Best long-term; no password handling | Onboarding cost (Auth0, Clerk, etc.); cost; another vendor | Out of scope for v1; could be a v2 path |
+| OAuth/OIDC with an external provider | Best long-term; no password handling | Onboarding cost (Auth0, Clerk, etc.); cost; another vendor | ~~Out of scope for v1; could be a v2 path~~ **Partially adopted** in ADR 0004 (Google ID-token verification); session storage from this ADR still applies post-sign-in |
 
 ## Consequences
 
@@ -64,4 +64,5 @@ Store the JWT in `localStorage` under the key `token`. Attach it via an Axios re
 - `Documents/Security/SecurityAndThreatModel.md` §3.3, SEC-7
 - `Documents/Engineering/Frontend/Architecture.md` §6, §7
 - `Documents/Project/ticket-inventory.md` FEAT-7 (the future change)
+- `Documents/Engineering/Architecture/ADR/0004-google-oauth-server-side-verification.md` (partial walk-back of the OAuth "out of scope" line)
 - OWASP cheat sheet on JWT storage (web search)

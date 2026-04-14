@@ -22,7 +22,8 @@ class User(db.Model):
     id            = db.Column(db.Integer, primary_key=True)
     username      = db.Column(db.String(80),  unique=True, nullable=False)
     email         = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(256),               nullable=False)
+    password_hash = db.Column(db.String(256),               nullable=True)
+    google_id     = db.Column(db.String(100), unique=True,  nullable=True)
     created_at    = db.Column(db.DateTime,    default=lambda: datetime.now(timezone.utc))
 
     incomes  = db.relationship('Income',  backref='user', lazy=True)
@@ -46,6 +47,8 @@ class User(db.Model):
 
 **Watch-outs:**
 - `password_hash` must never be in `to_dict()`. It currently isn't — keep it that way.
+- `password_hash` is **nullable** — Google-only users have `NULL` here. Code that reads it must `if user.password_hash is None: ...` first. `routes/auth.py:45` already guards this in the email/password login path.
+- `google_id` is also kept out of `to_dict()` deliberately — it's a server-side join key, not user-facing data.
 - `created_at` defaults via lambda to ensure each insert gets a fresh timestamp, not the import-time value.
 - `to_dict()` will raise `AttributeError` if `created_at` is `None` (it shouldn't be — the default lambda fires on insert — but if a row is constructed without `db.session.add()`/`commit()`, the default hasn't run yet).
 
