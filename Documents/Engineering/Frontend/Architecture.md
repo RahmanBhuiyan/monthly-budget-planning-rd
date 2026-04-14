@@ -1,16 +1,16 @@
 # Frontend Architecture
 
-> Companion to `Documents/Frontend/PagesGuide.md`, `ComponentsGuide.md`, and `StylingGuide.md`. For the cross-cutting standards (functional components, ESLint, Prettier), see `Documents/CodeStandardAndGuide.md` §2.
+> Companion to `Documents/Engineering/Engineering/Frontend/PagesGuide.md`, `ComponentsGuide.md`, and `StylingGuide.md`. For the cross-cutting standards (functional components, ESLint, Prettier), see `Documents/Process/CodeStandardAndGuide.md` §2.
 
 ## 1. Stack
 - **Framework:** React 19.2.5 (CRA — Create React App, JavaScript not TypeScript)
 - **Routing:** react-router-dom v7
 - **HTTP:** Axios (request interceptor for JWT)
-- **Charts:** Recharts (chosen over Chart.js — see `Documents/TechnologyStack.md`)
+- **Charts:** Recharts (chosen over Chart.js — see `Documents/Reference/TechnologyStack.md`)
 - **Icons:** react-icons (Heroicons set, `react-icons/hi`)
 - **State:** local component state only — no Redux/Zustand/Context
 - **Styling:** plain CSS in a single `App.css`
-- **Dev port:** **7575** (must be set explicitly — `Documents/SetupAndDeployment.md` §3)
+- **Dev port:** **7575** (must be set explicitly — `Documents/DevOps/SetupAndDeployment.md` §3)
 
 ## 2. Folder layout
 ```
@@ -144,7 +144,7 @@ Pages import only what they need from `../services/api`. **No bare `fetch()` or 
 6. Logout = localStorage.clear() + navigate('/').
 ```
 
-**Security implication:** localStorage is readable by any JS that runs in the page (including injected scripts). The XSS surface is the JWT theft vector — covered in `Documents/SecurityAndThreatModel.md` §3.3.
+**Security implication:** localStorage is readable by any JS that runs in the page (including injected scripts). The XSS surface is the JWT theft vector — covered in `Documents/Security/SecurityAndThreatModel.md` §3.3.
 
 ## 8. Data fetching pattern
 
@@ -184,7 +184,7 @@ Mobile-first. Single CSS file (`App.css`) with media queries:
 
 Recharts only. The single chart usage is `<BarChart>` in `MonthlyAnalysis.js`. If you need a new chart type:
 1. Use Recharts.
-2. Do **not** install Chart.js, Victory, Nivo, or anything else (`Documents/CodeStandardAndGuide.md` §2.7).
+2. Do **not** install Chart.js, Victory, Nivo, or anything else (`Documents/Process/CodeStandardAndGuide.md` §2.7).
 
 ## 11. Where to put new code
 
@@ -196,7 +196,7 @@ Recharts only. The single chart usage is `<BarChart>` in `MonthlyAnalysis.js`. I
 | An API call | a new exported function in `src/services/api.js` |
 | A formatting utility | new file in `src/utils/` (folder doesn't exist yet — create it) |
 | A custom hook | `src/hooks/useThing.js` (folder doesn't exist yet) |
-| A new env var | `package.json` start script + `Documents/SetupAndDeployment.md` §4 |
+| A new env var | `package.json` start script + `Documents/DevOps/SetupAndDeployment.md` §4 |
 
 ## 12. Known frontend gaps (recap)
 | Gap | Where | SRS ref |

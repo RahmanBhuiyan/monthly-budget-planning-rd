@@ -1,6 +1,6 @@
 # Ticket Inventory
 
-> Living list. Update in place — don't append "DONE" history (that's what `git log` is for). One-line per ticket; deeper context lives in `Documents/SRS.md` §6.
+> Living list. Update in place — don't append "DONE" history (that's what `git log` is for). One-line per ticket; deeper context lives in `Documents/Reference/SRS.md` §6.
 
 **Legend:** `OPEN` · `IN PROGRESS` · `BLOCKED` · `DONE` (delete after one sprint).
 **Severity:** `HIGH` · `MED` · `LOW`. **Tag** `[BIZ-QC-NEEDED]` when the fix touches protected business logic (`CLAUDE.md §2`).
@@ -17,8 +17,8 @@
 | BUG-4 | `app.run(debug=True)` hardcoded — Werkzeug debugger is RCE | HIGH | OPEN | — | `app.py:49` · gate behind env · `SecurityAndThreatModel SEC-8` |
 | BUG-5 | `date.fromisoformat()` no try/except → 500 on bad input | MED | OPEN | — | `routes/expenses.py:33` · `SRS §6.3` |
 | BUG-6 | No password / email format validation | MED | OPEN | — | `routes/auth.py` · `SRS §6.7` · `SecurityAndThreatModel SEC-3,4` |
-| TEST-1 | Add backend test baseline (pytest + financial formulas) | HIGH | OPEN | — | `Backend/TestingGuide.md` · prerequisite for `[BIZ-QC-NEEDED]` confidence |
-| TEST-2 | Add frontend test baseline (Jest + page render smoke) | HIGH | OPEN | — | `Frontend/TestingGuide.md` |
+| TEST-1 | Add backend test baseline (pytest + financial formulas) | HIGH | OPEN | — | `Engineering/Backend/TestingGuide.md` · prerequisite for `[BIZ-QC-NEEDED]` confidence |
+| TEST-2 | Add frontend test baseline (Jest + page render smoke) | HIGH | OPEN | — | `Engineering/Frontend/TestingGuide.md` |
 | INFRA-1 | Introduce Flask-Migrate, drop `db.create_all()` | MED | OPEN | — | `MigrationPlan.md` Step 1 · prerequisite for any prod schema change |
 
 ## Bugs (non-blocker)
@@ -30,7 +30,7 @@
 | BUG-9 | Categories endpoint has no `ORDER BY` | LOW | OPEN | — | `routes/reports.py:91` · `SRS §6.4` |
 | BUG-10 | `BudgetAlerts` uses `key={i}` (anti-pattern) | LOW | OPEN | — | `frontend/src/pages/BudgetAlerts.js:45` |
 | BUG-11 | ExpenseList delete failure swallowed silently (only console.error) | LOW | OPEN | — | `frontend/src/pages/ExpenseList.js:37` · UX, not data |
-| BUG-12 | `BottomNav` uses `<div onClick>` (a11y, no keyboard nav) | LOW | OPEN | — | `frontend/src/components/BottomNav.js` · `Frontend/ComponentsGuide.md` |
+| BUG-12 | `BottomNav` uses `<div onClick>` (a11y, no keyboard nav) | LOW | OPEN | — | `frontend/src/components/BottomNav.js` · `Engineering/Frontend/ComponentsGuide.md` |
 
 ## Features (post-v1 candidates)
 
@@ -40,7 +40,7 @@
 | FEAT-2 | Either wire `savings_goal` into reports OR remove the column | LOW | OPEN | — | `SRS §6.8` · `[BIZ-QC-NEEDED]` if wired in |
 | FEAT-3 | Parameterize Axios base URL via `REACT_APP_API_BASE_URL` | MED | OPEN | — | Deployment-blocker · `SetupAndDeployment.md §4` |
 | FEAT-4 | Make CORS allow-list configurable via env var | LOW | OPEN | — | `SecurityAndThreatModel SEC-9` |
-| FEAT-5 | Add response interceptor for global 401 → logout | LOW | OPEN | — | `Frontend/Architecture.md §6` · removes ~12 duplicates |
+| FEAT-5 | Add response interceptor for global 401 → logout | LOW | OPEN | — | `Engineering/Frontend/Architecture.md §6` · removes ~12 duplicates |
 | FEAT-6 | Add `<Route path="*" element={<NotFound />} />` catch-all | LOW | OPEN | — | `frontend/src/App.js` |
 | FEAT-7 | Move JWT from localStorage to httpOnly cookie + CSRF | MED | OPEN | — | `SecurityAndThreatModel SEC-7` · large change |
 | FEAT-8 | Add rate limiting + lockout on `/auth/*` | MED | OPEN | — | `SecurityAndThreatModel SEC-5` |

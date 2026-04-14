@@ -126,7 +126,7 @@ A non-exhaustive map of the conventions in `App.css`. Use these names; don't inv
 
 There is no shared money-formatting CSS or component today. Every page does inline `toFixed(2)` and template literals. **All money should display with two decimals and a leading `$`** (US-style — locale-aware formatting is out of v1 scope).
 
-Standard form: `$1,234.50` (with thousands separator). Today most code emits `$1234.50` (no separator). A `formatCurrency()` utility + a `<MoneyDisplay>` component would fix this in one PR — see `Frontend/ComponentsGuide.md` "Suggested near-term components".
+Standard form: `$1,234.50` (with thousands separator). Today most code emits `$1234.50` (no separator). A `formatCurrency()` utility + a `<MoneyDisplay>` component would fix this in one PR — see `Engineering/Frontend/ComponentsGuide.md` "Suggested near-term components".
 
 ## 8. Animations
 

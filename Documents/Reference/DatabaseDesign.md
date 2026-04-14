@@ -7,7 +7,7 @@
 | Environment | Engine | Driver | Notes |
 |-------------|--------|--------|-------|
 | Prototype / dev | SQLite | builtin (`sqlite3`) | File at `backend/expense_tracker.db`, auto-created via `db.create_all()` |
-| Production (target) | MySQL 8.x | PyMySQL (`mysql+pymysql://`) | See `Documents/MigrationPlan.md` for the cutover plan |
+| Production (target) | MySQL 8.x | PyMySQL (`mysql+pymysql://`) | See `Documents/DevOps/MigrationPlan.md` for the cutover plan |
 
 The same SQLAlchemy models target both engines. Any place this matters (type-mapping, charsets) is called out below.
 
@@ -25,7 +25,7 @@ The same SQLAlchemy models target both engines. Any place this matters (type-map
                                    └──────────────┘
 ```
 
-Every domain table has a single owning `user_id`. Multi-user sharing is out of scope for v1 (see `Documents/SRS.md` §2).
+Every domain table has a single owning `user_id`. Multi-user sharing is out of scope for v1 (see `Documents/Reference/SRS.md` §2).
 
 ## 3. Tables
 
@@ -38,7 +38,7 @@ Every domain table has a single owning `user_id`. Multi-user sharing is out of s
 | `password_hash` | VARCHAR(256) | NOT NULL | Werkzeug PBKDF2-SHA256 |
 | `created_at` | DATETIME | NOT NULL, default `utcnow()` | UTC |
 
-**Relationships:** `incomes`, `budgets`, `expenses` declared on the User model with `backref='user'` (see `Documents/Backend/ModelsGuide.md`).
+**Relationships:** `incomes`, `budgets`, `expenses` declared on the User model with `backref='user'` (see `Documents/Engineering/Engineering/Backend/ModelsGuide.md`).
 
 ### 3.2 `incomes`
 | Column | Type | Constraints | Notes |
@@ -105,7 +105,7 @@ Add these as a single `feature/db-perf-indexes` ticket once expense volume justi
 
 - **Storage:** `DECIMAL(10,2)` everywhere. Range `-99,999,999.99` to `99,999,999.99`. Adequate for personal-finance scale; will need re-evaluation if the app ever supports business accounts.
 - **In Python:** SQLAlchemy returns `decimal.Decimal`. Do arithmetic in `Decimal`; never coerce to `float` mid-calculation.
-- **At the API boundary:** `to_dict()` currently casts to `float` — this is a known violation of `NFR-1`. See `SRS.md §6.5` and `Documents/Backend/ModelsGuide.md`.
+- **At the API boundary:** `to_dict()` currently casts to `float` — this is a known violation of `NFR-1`. See `SRS.md §6.5` and `Documents/Engineering/Engineering/Backend/ModelsGuide.md`.
 
 ## 6. Date and time handling
 
@@ -124,7 +124,7 @@ Add these as a single `feature/db-perf-indexes` ticket once expense volume justi
 | `Integer` | `INTEGER` | `INT(11)` | Low |
 | `Boolean` | `INTEGER 0/1` | `TINYINT(1)` | Low |
 
-See `Documents/MigrationPlan.md` §3 for the full type-sanity-check procedure.
+See `Documents/DevOps/MigrationPlan.md` §3 for the full type-sanity-check procedure.
 
 ## 8. Query patterns (where the rows are read)
 
@@ -149,12 +149,12 @@ See `Documents/MigrationPlan.md` §3 for the full type-sanity-check procedure.
 |-------|--------|
 | Backups | None defined for prod (no prod yet) |
 | Retention | None defined |
-| PII / GDPR | Not in scope for v1; revisit before launch — see `Documents/SecurityAndThreatModel.md` §9 |
+| PII / GDPR | Not in scope for v1; revisit before launch — see `Documents/Security/SecurityAndThreatModel.md` §9 |
 | Right-to-delete | Cascade delete on `users.id` would drop all of a user's data; relationships are not currently set to `cascade='delete-orphan'` — verify before relying on it |
 
 ## 11. Schema change procedure (forward reference)
 
-Until `Documents/MigrationPlan.md` §"Step 1" is done, **the only safe schema change is adding a new table.** Altering an existing column is not supported without manual SQL or a destructive `db.drop_all()` + `create_all()`. Plan accordingly.
+Until `Documents/DevOps/MigrationPlan.md` §"Step 1" is done, **the only safe schema change is adding a new table.** Altering an existing column is not supported without manual SQL or a destructive `db.drop_all()` + `create_all()`. Plan accordingly.
 
 After Flask-Migrate is in place: every model change ships with `flask db migrate -m "..."` + `flask db upgrade` in the same PR.
 

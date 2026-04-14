@@ -1,6 +1,6 @@
 # Testing Checklist
 
-> One row per planned test. Update the **Status** column as tests are written. This is the implementation tracker for `feature/test-suite-baseline`. Strategy lives in `TestingStrategy.md`; setup/sample code in `Backend/TestingGuide.md` and `Frontend/TestingGuide.md`.
+> One row per planned test. Update the **Status** column as tests are written. This is the implementation tracker for `feature/test-suite-baseline`. Strategy lives in `TestingStrategy.md`; setup/sample code in `Engineering/Backend/TestingGuide.md` and `Engineering/Frontend/TestingGuide.md`.
 
 **Status legend:** `❌` not started · `🚧` in progress · `✅` passing · `⏸️` blocked (note why) · `🐛` pinning a known bug (must fail until bug is fixed)
 
@@ -11,7 +11,7 @@
 ### Protected business logic — `[BIZ-QC-NEEDED]` to change
 | # | Test | Status | Notes |
 |---|------|--------|-------|
-| U-01 | `saved` positive case | ❌ | sample in `Backend/TestingGuide.md §4` |
+| U-01 | `saved` positive case | ❌ | sample in `Engineering/Backend/TestingGuide.md §4` |
 | U-02 | `saved` negative case (overspent) | ❌ | sample shown |
 | U-03 | `saved` with no income (0 default) | ❌ | sample shown |
 | U-04 | `budget_remaining` zero at exact budget | ❌ | sample shown |
@@ -117,7 +117,7 @@
 ## Frontend — Page render smoke (`src/pages/__tests__/`)
 | # | Test | Status | Notes |
 |---|------|--------|-------|
-| F-01 | Welcome renders | ❌ | sample pattern in `Frontend/TestingGuide.md §7` |
+| F-01 | Welcome renders | ❌ | sample pattern in `Engineering/Frontend/TestingGuide.md §7` |
 | F-02 | Login renders | ❌ | covered in §5 sample |
 | F-03 | Signup renders | ❌ | |
 | F-04 | IncomeSetup renders | ❌ | |

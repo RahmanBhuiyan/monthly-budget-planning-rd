@@ -1,8 +1,8 @@
 # Roadmap
 
-> Living document. Quarterly horizon. Tickets referenced here live in `Documents/projectManager/ticket-inventory.md`. When priorities shift, edit in place — don't append revision history (use `git log`).
+> Living document. Quarterly horizon. Tickets referenced here live in `Documents/Project/ticket-inventory.md`. When priorities shift, edit in place — don't append revision history (use `git log`).
 
-**Today:** prototype phase. Code works end-to-end on localhost; not yet shipped, no real users, no tests, ~13 known gaps catalogued in `Documents/SRS.md` §6.
+**Today:** prototype phase. Code works end-to-end on localhost; not yet shipped, no real users, no tests, ~13 known gaps catalogued in `Documents/Reference/SRS.md` §6.
 
 ---
 
@@ -27,7 +27,7 @@
 
 | Theme | Tickets | Notes |
 |-------|---------|-------|
-| **Database migration** | FEAT-10 (SQLite → MySQL) | Requires INFRA-1 done. See `Documents/MigrationPlan.md`. |
+| **Database migration** | FEAT-10 (SQLite → MySQL) | Requires INFRA-1 done. See `Documents/DevOps/MigrationPlan.md`. |
 | **Configurable infra** | FEAT-3 (Axios base URL env), FEAT-4 (CORS env) | Can't deploy to a non-localhost domain without these. |
 | **Auth surface hardening** | FEAT-8 (rate limiting), BUG-7 (timing attack) | Brute-force protection + email enumeration fix. |
 | **Logging** | FEAT-12 (structured logging) | If a financial calculation goes wrong in production, you need a trail. |
@@ -47,7 +47,7 @@
 
 ## Phase 4 — differentiators
 
-Speculative. Don't build any of these without a user actually asking. Ordered by likely demand based on `Documents/ProjectOverview.md` §7.
+Speculative. Don't build any of these without a user actually asking. Ordered by likely demand based on `Documents/Reference/ProjectOverview.md` §7.
 
 | Feature | One-line case |
 |---------|---------------|

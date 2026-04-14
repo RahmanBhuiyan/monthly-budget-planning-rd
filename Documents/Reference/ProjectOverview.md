@@ -40,7 +40,7 @@ Many individuals struggle to manage their finances because they don't track thei
 - **Database:** SQLite for the prototype (`expense_tracker.db`); MySQL targeted for production. SQLAlchemy ORM in both cases.
 - **Auth:** JWT bearer tokens (24-hour expiry), Werkzeug for password hashing.
 
-See `Documents/TechnologyStack.md` for the authoritative stack details.
+See `Documents/Reference/TechnologyStack.md` for the authoritative stack details.
 
 ## 7. Feature Roadmap & Suggestions
 

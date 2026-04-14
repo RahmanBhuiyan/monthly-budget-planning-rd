@@ -1,6 +1,6 @@
 # Backend Testing Guide
 
-> Companion to `Documents/TestingStrategy.md` (the *what*). This doc is the *how* — pytest setup, fixtures, sample tests for the protected business logic. Implementation lives on a separate `feature/test-suite-baseline` branch (one ticket per branch, `CLAUDE.md §6`).
+> Companion to `Documents/QA/TestingStrategy.md` (the *what*). This doc is the *how* — pytest setup, fixtures, sample tests for the protected business logic. Implementation lives on a separate `feature/test-suite-baseline` branch (one ticket per branch, `CLAUDE.md §6`).
 
 ## 1. Tooling
 

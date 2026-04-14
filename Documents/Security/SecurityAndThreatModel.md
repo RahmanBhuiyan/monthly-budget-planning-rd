@@ -95,7 +95,7 @@
 3. Rotate database credentials.
 4. Audit recent commits for the leak vector.
 5. Notify affected users per applicable regulations.
-6. Post-mortem in `Documents/projectManager/retro-{date}-incident.md`.
+6. Post-mortem in `Documents/Project/retro-{date}-incident.md`.
 
 ## 9. Compliance posture
 - **Today:** none claimed. Single-developer prototype.

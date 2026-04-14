@@ -100,7 +100,7 @@ HTTP status code matches `code`. Use 400 for validation, 401 for missing/invalid
 - Show user-visible errors; never `console.error()` only.
 
 ### 2.7 Charts
-- Recharts is the chosen library (see `Documents/TechnologyStack.md`). Do **not** introduce Chart.js, Victory, or another competing chart library.
+- Recharts is the chosen library (see `Documents/Reference/TechnologyStack.md`). Do **not** introduce Chart.js, Victory, or another competing chart library.
 
 ### 2.8 Routing
 - React Router v7. Routes declared in `App.js`.
@@ -123,7 +123,7 @@ HTTP status code matches `code`. Use 400 for validation, 401 for missing/invalid
 - Frontend renders in the user's local timezone but **never** parses with `new Date(dateStr)` — that's locale/TZ-unsafe. Use `new Date(dateStr + 'T00:00:00')` only when you genuinely want midnight-local; otherwise use a date library or treat dates as opaque strings.
 
 ### 3.4 Tests
-- v1 must include at least: backend smoke tests for the 6 financial formulas (`Documents/PROJECT_CONTEXT.md` §"Critical Business Logic"); frontend smoke render tests for each page.
+- v1 must include at least: backend smoke tests for the 6 financial formulas (`Documents/Reference/PROJECT_CONTEXT.md` §"Critical Business Logic"); frontend smoke render tests for each page.
 - Use `pytest` for backend; `@testing-library/react` for frontend (deps already installed).
 
 ### 3.5 Forbidden patterns

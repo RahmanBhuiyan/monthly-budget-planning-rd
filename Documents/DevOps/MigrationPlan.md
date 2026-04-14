@@ -100,6 +100,6 @@ For a fresh start (no data carried over), skip §4 entirely — just point the e
 - One CI job per release should run the full test suite against MySQL using the actual production migrations, to catch dialect drift early.
 
 ## 7. What this plan deliberately does NOT do
-- Move secrets out of the codebase (covered by `Documents/SecurityAndThreatModel.md`).
+- Move secrets out of the codebase (covered by `Documents/Security/SecurityAndThreatModel.md`).
 - Add connection pooling / read replicas (premature; revisit when QPS demands it).
 - Introduce ORM-level multi-tenancy (the schema already keys everything by `user_id`; sufficient for v1).

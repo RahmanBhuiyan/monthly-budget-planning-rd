@@ -77,7 +77,7 @@ The frontend currently never reads `process.env`. The Axios base URL is hardcode
 ### Production (MySQL — target)
 1. Create the database and a user with full privileges on it.
 2. Set `DATABASE_URL=mysql+pymysql://user:pass@host:3306/dbname` and install the driver: `pip install pymysql`.
-3. There is **no migration tool installed yet**. `db.create_all()` is idempotent for new tables but will not alter existing schema. See `Documents/MigrationPlan.md` for the path to Flask-Migrate.
+3. There is **no migration tool installed yet**. `db.create_all()` is idempotent for new tables but will not alter existing schema. See `Documents/DevOps/MigrationPlan.md` for the path to Flask-Migrate.
 
 ## 6. Running tests
 > No tests exist yet (`SRS.md §6.9`). When they do, the convention will be:

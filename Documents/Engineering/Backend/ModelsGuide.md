@@ -1,6 +1,6 @@
 # Models Guide
 
-> Companion to `Documents/DatabaseDesign.md` (which is the schema reference). This doc covers the *Python side*: how the SQLAlchemy classes are shaped, what the methods do, and what to watch for when adding a model.
+> Companion to `Documents/Reference/DatabaseDesign.md` (which is the schema reference). This doc covers the *Python side*: how the SQLAlchemy classes are shaped, what the methods do, and what to watch for when adding a model.
 
 All models live in a single file: `backend/models.py`. Splitting per-model is not warranted yet (4 models).
 
@@ -144,7 +144,7 @@ This is `SRS.md §6.5`. Tag any fix `[BIZ-QC-NEEDED]`.
 3. Always set `__tablename__` (don't rely on SQLAlchemy's auto-derivation).
 4. Define a `to_dict()` — keep it shallow; nested objects are usually a smell at this scale.
 5. If it's owned by a user, add `user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)`.
-6. After Flask-Migrate is installed (`Documents/MigrationPlan.md` §"Step 1"), also: `flask db migrate -m "add <model>"` and commit the generated file.
+6. After Flask-Migrate is installed (`Documents/DevOps/MigrationPlan.md` §"Step 1"), also: `flask db migrate -m "add <model>"` and commit the generated file.
 7. Until then, you must drop and recreate the SQLite DB to pick up the change in dev. Document this clearly in your PR description.
 
 ## 6. Querying conventions

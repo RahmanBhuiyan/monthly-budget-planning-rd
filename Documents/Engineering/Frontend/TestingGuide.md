@@ -1,6 +1,6 @@
 # Frontend Testing Guide
 
-> Companion to `Documents/TestingStrategy.md`. Implementation lives on a separate `feature/test-suite-baseline` branch.
+> Companion to `Documents/QA/TestingStrategy.md`. Implementation lives on a separate `feature/test-suite-baseline` branch.
 
 ## 1. Tooling
 
@@ -183,7 +183,7 @@ test('Login shows error on 401', async () => {
 
 ## 6. Sample: ExpenseList delete behavior
 
-Pin the **silent failure** issue (`Frontend/PagesGuide.md` ExpenseList "Known issues"):
+Pin the **silent failure** issue (`Engineering/Frontend/PagesGuide.md` ExpenseList "Known issues"):
 
 ```jsx
 import { screen, waitFor } from '@testing-library/react';

@@ -1,6 +1,6 @@
 # Pages Guide
 
-> One entry per page. Each entry covers: purpose, route, state, API calls, navigation behavior, and known issues. For shared concerns (Axios setup, layout), see `Frontend/Architecture.md`.
+> One entry per page. Each entry covers: purpose, route, state, API calls, navigation behavior, and known issues. For shared concerns (Axios setup, layout), see `Engineering/Frontend/Architecture.md`.
 
 | Page | Route | Auth | API calls |
 |------|-------|------|-----------|
@@ -45,7 +45,7 @@
 **Known issues:**
 - No loading state — submit button is clickable while in flight (double-submit risk).
 - No frontend validation (email format, password length).
-- Token in localStorage exposes JWT to XSS (`Documents/SecurityAndThreatModel.md` §3.3).
+- Token in localStorage exposes JWT to XSS (`Documents/Security/SecurityAndThreatModel.md` §3.3).
 
 ---
 

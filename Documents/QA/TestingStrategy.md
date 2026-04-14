@@ -20,7 +20,7 @@ The shape matters more than the exact numbers. Slow-running tests (E2E, integrat
 The audit (`SRS.md §6.9`) calls testing a v1 blocker. The non-negotiable list:
 
 ### 2.1 Backend — financial formulas (`CLAUDE.md §2` protected logic)
-For each formula in `Documents/PROJECT_CONTEXT.md` §"Critical Business Logic":
+For each formula in `Documents/Reference/PROJECT_CONTEXT.md` §"Critical Business Logic":
 
 | Formula | Test angles |
 |---------|-------------|

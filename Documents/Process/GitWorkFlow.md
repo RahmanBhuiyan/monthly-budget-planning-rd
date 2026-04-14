@@ -60,7 +60,7 @@ Required in the commit body whenever a change touches:
 - Monthly summary aggregation
 - Anything involving `DECIMAL(10,2)` financial fields
 
-The flag signals the reviewer must verify the formula by hand against `Documents/PROJECT_CONTEXT.md` §"Critical Business Logic".
+The flag signals the reviewer must verify the formula by hand against `Documents/Reference/PROJECT_CONTEXT.md` §"Critical Business Logic".
 
 ## 6. Pull request workflow
 1. Push your branch: `git push -u origin feature/{id}-{desc}`

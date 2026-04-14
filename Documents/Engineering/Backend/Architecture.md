@@ -1,6 +1,6 @@
 # Backend Architecture
 
-> Companion to `Documents/Backend/RoutesGuide.md` and `Documents/Backend/ModelsGuide.md`. For the cross-cutting standards (PEP 8, error format), see `Documents/CodeStandardAndGuide.md` §1.
+> Companion to `Documents/Engineering/Engineering/Backend/RoutesGuide.md` and `Documents/Engineering/Engineering/Backend/ModelsGuide.md`. For the cross-cutting standards (PEP 8, error format), see `Documents/Process/CodeStandardAndGuide.md` §1.
 
 ## 1. Stack at a glance
 - **Framework:** Flask 3.1.1 (factory pattern in `app.py`)
@@ -123,7 +123,7 @@ There is no global error handler today. Each route returns `jsonify({'error': '.
 ## 8. CORS
 
 Hardcoded to a single origin: `http://localhost:7575`. Implications:
-- Frontend MUST run on 7575 (`Documents/SetupAndDeployment.md` §3).
+- Frontend MUST run on 7575 (`Documents/DevOps/SetupAndDeployment.md` §3).
 - Cannot deploy without code change. Should accept a comma-separated `CORS_ORIGINS` env var (`SEC-9` in `SecurityAndThreatModel.md`).
 
 ## 9. Database access
@@ -131,11 +131,11 @@ Hardcoded to a single origin: `http://localhost:7575`. Implications:
 - `db.session` for all reads and writes (no raw SQL).
 - Commit at the end of every successful write.
 - Rollback in `except` blocks (today's code is inconsistent about this — gap).
-- `db.create_all()` runs once at startup. This is fine for prototype; the production path is in `Documents/MigrationPlan.md`.
+- `db.create_all()` runs once at startup. This is fine for prototype; the production path is in `Documents/DevOps/MigrationPlan.md`.
 
 ## 10. Logging
 
-`app.logger` is available but not used today. The dev server prints Werkzeug's request log line per request. Production logging is a ticket waiting to be opened (see `Documents/SecurityAndThreatModel.md` §7).
+`app.logger` is available but not used today. The dev server prints Werkzeug's request log line per request. Production logging is a ticket waiting to be opened (see `Documents/Security/SecurityAndThreatModel.md` §7).
 
 ## 11. The dev server vs. production
 
@@ -145,7 +145,7 @@ if __name__ == '__main__':
     app.run(debug=True, port=7576)     # NEVER ship this
 ```
 
-`debug=True` enables Werkzeug's interactive debugger — remote code execution if it ever reaches a public network. Production must run under gunicorn (`Documents/SetupAndDeployment.md` §7) and the `if __name__ == '__main__'` block must be guarded by an env check.
+`debug=True` enables Werkzeug's interactive debugger — remote code execution if it ever reaches a public network. Production must run under gunicorn (`Documents/DevOps/SetupAndDeployment.md` §7) and the `if __name__ == '__main__'` block must be guarded by an env check.
 
 ## 12. Where to put new code
 
@@ -155,5 +155,5 @@ if __name__ == '__main__':
 | A new resource | a new `routes/<new>.py` blueprint, registered in `app.py` |
 | A new model | `models.py` (one file, no per-model file split until it grows past ~5 models) |
 | A shared validation helper | new file `routes/_utils.py`; underscore prefix marks it as internal |
-| A new env var | `app.py` config block, plus `backend/.env.example` (to be created) and `Documents/SetupAndDeployment.md` §4 |
+| A new env var | `app.py` config block, plus `backend/.env.example` (to be created) and `Documents/DevOps/SetupAndDeployment.md` §4 |
 | A constant used by multiple routes | `routes/__init__.py` (today only `VALID_CATEGORIES` qualifies but lives in `expenses.py` — fine until a second consumer appears) |

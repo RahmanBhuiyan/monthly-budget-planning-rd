@@ -21,7 +21,7 @@ This document covers contribution norms, communication expectations, and the bou
 
 ### 2.2 As a reviewer
 - Read the linked ticket first; verify the PR addresses what the ticket asks for and nothing else.
-- For `[BIZ-QC-NEEDED]` PRs: re-derive each affected formula by hand and compare to `Documents/PROJECT_CONTEXT.md` §"Critical Business Logic".
+- For `[BIZ-QC-NEEDED]` PRs: re-derive each affected formula by hand and compare to `Documents/Reference/PROJECT_CONTEXT.md` §"Critical Business Logic".
 - Distinguish blocking from non-blocking comments. Use prefixes:
   - `nit:` — style preference, not blocking
   - `q:` — question, may or may not block
@@ -52,10 +52,10 @@ This document covers contribution norms, communication expectations, and the bou
 - Violations are handled by the project owner. Repeated violations result in revoked write access.
 
 ## 7. Onboarding checklist for new contributors
-1. Read `CLAUDE.md`, `GEMINI.md`, and `Documents/PROJECT_CONTEXT.md` end-to-end.
-2. Read `Documents/SRS.md` for what the system does today and what it must do.
-3. Read `Documents/CodeStandardAndGuide.md` for style.
-4. Read this file (`CodeCommunityStandard.md`) and `Documents/GitWorkFlow.md`.
-5. Skim `Documents/TechnologyStack.md` for exact versions.
+1. Read `CLAUDE.md`, `GEMINI.md`, and `Documents/Reference/PROJECT_CONTEXT.md` end-to-end.
+2. Read `Documents/Reference/SRS.md` for what the system does today and what it must do.
+3. Read `Documents/Process/CodeStandardAndGuide.md` for style.
+4. Read this file (`CodeCommunityStandard.md`) and `Documents/Process/GitWorkFlow.md`.
+5. Skim `Documents/Reference/TechnologyStack.md` for exact versions.
 6. Run the project locally (see project root `README.md`) and confirm the dashboard renders.
-7. Pick a `bugfix/` ticket from `Documents/SRS.md` §6 ("Known Gaps") for the first PR.
+7. Pick a `bugfix/` ticket from `Documents/Reference/SRS.md` §6 ("Known Gaps") for the first PR.

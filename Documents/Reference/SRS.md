@@ -55,7 +55,7 @@ A personal finance web app that lets a single user log daily expenses against a 
 | FR-R4 | Alert thresholds: warning ≥80% budget usage; critical ≥100%; a "suggestion" also fires at ≥80%. |
 
 ### 4.6 Frontend Pages (12)
-Welcome, Login, Signup, IncomeSetup, BudgetSetup, Dashboard, AddExpense, ExpenseList, Categories, MonthlyAnalysis, BudgetAlerts, MonthlySummary. Routes documented in `Documents/PROJECT_CONTEXT.md`.
+Welcome, Login, Signup, IncomeSetup, BudgetSetup, Dashboard, AddExpense, ExpenseList, Categories, MonthlyAnalysis, BudgetAlerts, MonthlySummary. Routes documented in `Documents/Reference/PROJECT_CONTEXT.md`.
 
 ## 5. Non-Functional Requirements
 
@@ -117,12 +117,12 @@ On top of the missing root-level Documents/ files (already addressed on this bra
 - `frontend/Documents/UserJourney.md`
 - `frontend/Documents/task.md`
 - `frontend/Documents/testCase.md`
-Decide either to create them under each app dir, or fold their concerns into the top-level Documents/ files (`TestingStrategy.md`, `projectManager/`, `Frontend/StylingGuide.md`, etc.) and remove the references from the GEMINI files. Recommended: fold + remove (less doc surface to maintain).
+Decide either to create them under each app dir, or fold their concerns into the top-level Documents/ files (`TestingStrategy.md`, `projectManager/`, `Engineering/Frontend/StylingGuide.md`, etc.) and remove the references from the GEMINI files. Recommended: fold + remove (less doc surface to maintain).
 
 ## 7. References
 - `CLAUDE.md` — project constitution (8 rules, branch naming, commit format)
 - `GEMINI.md` — engineering standards
-- `Documents/PROJECT_CONTEXT.md` — schema, routes, modules at a glance
-- `Documents/TechnologyStack.md` — exact versions and library choices
-- `Documents/GitWorkFlow.md` — branching and commit workflow
-- `Documents/CodeStandardAndGuide.md` — coding standards
+- `Documents/Reference/PROJECT_CONTEXT.md` — schema, routes, modules at a glance
+- `Documents/Reference/TechnologyStack.md` — exact versions and library choices
+- `Documents/Process/GitWorkFlow.md` — branching and commit workflow
+- `Documents/Process/CodeStandardAndGuide.md` — coding standards

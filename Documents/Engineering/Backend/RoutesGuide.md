@@ -1,6 +1,6 @@
 # Routes Guide
 
-> Per-blueprint walkthrough. Wire-format details (request/response JSON) are in `Documents/Backend/ApiReference.md` — this doc covers *how each route is implemented*, what to be careful of, and where the bugs live.
+> Per-blueprint walkthrough. Wire-format details (request/response JSON) are in `Documents/Reference/ApiReference.md` — this doc covers *how each route is implemented*, what to be careful of, and where the bugs live.
 
 ## Common patterns
 
@@ -29,7 +29,7 @@ else:
     db.session.add(Model(...))
 db.session.commit()
 ```
-Race condition: two simultaneous POSTs can both pass the `existing is None` check and then collide on the unique constraint. Fix is to wrap in a transaction with retry on `IntegrityError`. See `Documents/DatabaseDesign.md` §9.
+Race condition: two simultaneous POSTs can both pass the `existing is None` check and then collide on the unique constraint. Fix is to wrap in a transaction with retry on `IntegrityError`. See `Documents/Reference/DatabaseDesign.md` §9.
 
 ---
 

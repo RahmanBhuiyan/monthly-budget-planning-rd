@@ -75,7 +75,7 @@ Don't pre-extract. Three similar lines in two pages is fine; it becomes a proble
 - **Props down, callbacks up.** No prop drilling deeper than 2 levels — if you need to, lift the state up or pass a context.
 - **No defaultProps.** Use destructured defaults: `function Card({ title = '', children })`.
 - **PropTypes / TypeScript:** not used today. If you add the first one, do it for *all* new components going forward — selective typing is worse than none.
-- **Styling:** add classes in `App.css` (the project doesn't use CSS modules or styled-components). Class names are kebab-case. See `Frontend/StylingGuide.md`.
+- **Styling:** add classes in `App.css` (the project doesn't use CSS modules or styled-components). Class names are kebab-case. See `Engineering/Frontend/StylingGuide.md`.
 - **No business logic in components.** Money math belongs in the API/backend or in `src/utils/`. A component that knows the budget-warning threshold is a smell.
 
 ## Suggested near-term components (not built yet)
