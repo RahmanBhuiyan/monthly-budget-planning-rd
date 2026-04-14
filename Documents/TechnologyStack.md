@@ -3,34 +3,42 @@
 This document outlines the core technologies used in the development of the **Smart Expense & Budget Tracker**.
 
 ## 🖥️ Frontend
-- **Framework:** [React.js](https://reactjs.org/)
-- **Reasoning:** Provides a dynamic, component-based architecture for a smooth and responsive user experience across devices.
+- **Framework:** [React 19.2.5](https://reactjs.org/) (Create React App, JavaScript — not TypeScript)
+- **Reasoning:** Component-based architecture, hooks-driven state, large ecosystem.
+- **Dev port:** `7575` (must be set explicitly: `PORT=7575 npm start` — the backend's CORS allow-list is hardcoded to `http://localhost:7575`).
 - **Key Libraries:**
-  - `React Router` (for navigation)
-  - `Axios` (for API communication)
-  - `Chart.js` or `Recharts` (for financial data visualization)
+  - `react-router-dom` v7 — routing
+  - `axios` — API client (base URL `http://localhost:7576/api/v1`, request interceptor injects JWT from `localStorage`)
+  - `recharts` — bar charts for monthly analysis (Chart.js was considered, Recharts was chosen)
+  - `react-icons` — icon set
 
 ## ⚙️ Backend
-- **Framework:** [Python Flask](https://flask.palletsprojects.com/)
-- **Reasoning:** A lightweight and flexible micro-framework that is ideal for building efficient RESTful APIs.
+- **Framework:** [Python Flask 3.1.1](https://flask.palletsprojects.com/)
+- **Reasoning:** Lightweight, blueprint-based routing fits a small API surface.
+- **Dev port:** `7576`.
 - **Key Extensions:**
-  - `Flask-CORS` (to handle cross-origin requests from React)
-  - `Flask-SQLAlchemy` (for database ORM)
-  - `Flask-JWT-Extended` or `Werkzeug` (for secure user authentication)
+  - `Flask-SQLAlchemy` 3.1.1 — ORM (raw SQL is forbidden by `GEMINI.md`)
+  - `Flask-JWT-Extended` 4.7.1 — JWT auth (24h expiry, identity stored as `str(user.id)`)
+  - `Flask-CORS` 5.0.1 — CORS (hardcoded to `http://localhost:7575`)
+  - `Werkzeug` 3.1.3 — password hashing
+  - `python-dotenv` 1.1.0 — `.env` loading
 
 ## 🗄️ Database
-- **System:** [MySQL](https://www.mysql.com/)
-- **Reasoning:** A reliable and robust relational database management system (RDBMS) perfect for structured financial data, transaction history, and user accounts.
-- **Key Tables (Proposed):**
-  - `Users` (ID, Username, Email, PasswordHash)
-  - `Incomes` (UserID, Amount, Date)
-  - `Budgets` (UserID, Amount, SavingsGoal, Month)
-  - `Expenses` (UserID, Amount, Category, Note, Date)
+- **Prototype:** [SQLite](https://www.sqlite.org/) — `expense_tracker.db` auto-created on first run via `db.create_all()`.
+- **Production target:** [MySQL](https://www.mysql.com/).
+- **Reasoning:** SQLite keeps the prototype zero-config; MySQL is the production target for durability and concurrent writes.
+- **Tables (actual, see `backend/models.py`):**
+  - `users` (id, username UNIQUE, email UNIQUE, password_hash, created_at)
+  - `incomes` (id, user_id FK, amount `DECIMAL(10,2)`, month, year — UNIQUE on (user_id, month, year))
+  - `budgets` (id, user_id FK, amount `DECIMAL(10,2)`, savings_goal `DECIMAL(10,2)`, month, year — UNIQUE on (user_id, month, year))
+  - `expenses` (id, user_id FK, amount `DECIMAL(10,2)`, category, note, date, created_at)
 
 ## 🔧 Tools & Others
-- **Version Control:** Git & GitHub
-- **API Testing:** Postman
-- **Environment Management:** Virtualenv (Python) / NPM (Node.js)
+- **Version Control:** Git & GitHub. Branch naming `feature|bugfix|hotfix/{id}-{desc}` (see `CLAUDE.md`).
+- **API Testing:** Postman / curl.
+- **Environment Management:** `venv` (Python) / `npm` (Node.js).
+- **Migrations:** None yet (no Flask-Migrate installed despite `GEMINI.md` calling it "planned").
+- **Tests:** None yet (frontend has `@testing-library/*` deps installed but zero test files; backend has no test framework set up).
 
 ## 🏗️ Technical Best Practices: Do's and Don'ts
 

@@ -35,9 +35,12 @@ Many individuals struggle to manage their finances because they don't track thei
 6. **Review:** At month-end, the system generates a full analysis and summary.
 
 ## 6. Technology Stack
-- **Frontend:** React.js (for a dynamic and responsive user interface).
-- **Backend:** Python with Flask (for a lightweight and efficient API).
-- **Database:** MySQL (for robust relational data storage).
+- **Frontend:** React 19 (functional components + hooks), React Router v7, Axios, Recharts.
+- **Backend:** Python Flask 3.1.1 with Flask-SQLAlchemy, Flask-JWT-Extended, Flask-CORS.
+- **Database:** SQLite for the prototype (`expense_tracker.db`); MySQL targeted for production. SQLAlchemy ORM in both cases.
+- **Auth:** JWT bearer tokens (24-hour expiry), Werkzeug for password hashing.
+
+See `Documents/TechnologyStack.md` for the authoritative stack details.
 
 ## 7. Feature Roadmap & Suggestions
 
