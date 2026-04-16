@@ -34,16 +34,6 @@ function Signup() {
         <p className="auth-subtitle">Start tracking your expenses today</p>
         {error && <div className="error-msg">{error}</div>}
 
-        <GoogleLoginButton
-          text="signup_with"
-          onSuccess={() => navigate('/setup/income')}
-          onError={(msg) => setError(msg)}
-        />
-
-        <div className="auth-divider">
-          <span>or</span>
-        </div>
-
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Username</label>
@@ -77,6 +67,16 @@ function Signup() {
           </div>
           <button type="submit" className="btn btn-primary">Sign Up</button>
         </form>
+
+        <div className="auth-divider">
+          <span>or</span>
+        </div>
+
+        <GoogleLoginButton
+          text="signup_with"
+          onSuccess={() => navigate('/setup/income')}
+          onError={(msg) => setError(msg)}
+        />
         <p className="auth-link">
           Already have an account? <Link to="/login">Log In</Link>
         </p>
