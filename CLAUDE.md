@@ -1,12 +1,12 @@
 # CLAUDE.md — Project Constitution
 > This file is the law. Claude (and every other contributor) must follow every rule below without exception.
-> Updated 2026-04-14 to reflect the SDLC documentation restructure on `feature/audit-deep-read` and to add Rules 9–12 (permission gates for file edits, git remote operations, the master-branch manual-only rule, and the Docs-First-Then-Code rule).
+> Updated 2026-04-16 to add the `develop` shadow-branch workflow (Rule 3 rewrite, Rule 11 update). `master` is now deployment-only; `develop` is the daily integration branch.
 
 ## Project
 **Smart Expense & Budget Tracker** — Personal finance management system.
 **Stack**: React 19 · Python Flask 3.1.1 · SQLite (prototype) / MySQL (production target) · Flask-SQLAlchemy ORM · Flask-JWT-Extended · Recharts.
 **Ports**: backend `7576`, frontend `7575` (CORS hardcoded — see `Documents/DevOps/SetupAndDeployment.md` §3).
-**Default branch**: `master`.
+**Default branch**: `develop` (integration). `master` is deployment-only.
 
 ---
 
@@ -28,9 +28,11 @@ NEVER modify without `[BIZ-QC-NEEDED]` flag in the commit body. The protected fo
 
 For any `[BIZ-QC-NEEDED]` change: get product-owner sign-off **before** implementation per `Documents/Process/RACI.md` W3.
 
-### 3. Protected Branches
-- `master` is production-ready only — **no direct commits, no force-push.**
-- Work on: `feature/{id}-{desc}` · `bugfix/{id}-{desc}` · `hotfix/{id}-{desc}` (see `Documents/Process/GitWorkFlow.md` §2).
+### 3. Protected Branches & the `develop` Shadow Branch
+- **`master`** is deployment-only — **no direct commits, no force-push, no feature merges.** It receives code only when `develop` is stable, tested, and ready for release. Only a human may merge `develop → master`.
+- **`develop`** is the daily integration branch (the "shadow" of `master`). All feature, bugfix, and hotfix branches are created from `develop` and merge back into `develop` via PR.
+- Work on: `feature/{id}-{desc}` · `bugfix/{id}-{desc}` · `hotfix/{id}-{desc}` — all branched off `develop` (see `Documents/Process/GitWorkFlow.md` §2).
+- The merge flow is: `feature/* → develop` (via PR) → `develop → master` (human-only, at release time).
 
 ### 4. Never Rename Legacy Files
 - Do NOT rename any existing file under `Documents/` (the SDLC restructure on `feature/audit-deep-read` is the one exception — and is now baseline).
@@ -56,7 +58,7 @@ Do not create, update, modify, rename, or delete any file or folder without firs
 Never run `git push`, `git pull`, `git fetch`, `git merge`, `gh pr merge`, or any command that contacts a remote without first naming the exact command and getting explicit per-command approval from the user. Local-only git inspection (`status`, `log`, `diff`) is fine; commit creation still falls under Rule 9.
 
 ### 11. Never Commit / Push / Merge Into `master`
-Claude must never run `git commit`, `git push`, `git merge`, `git rebase`, `gh pr merge`, or any other write operation that targets the `master` branch — neither directly nor by merging a feature branch into it. All `master` writes are performed **manually by a human**. Claude may only: read `master` (`git log`, `git diff`, `git show`), branch *off* `master` into `feature/`, `bugfix/`, or `hotfix/` branches, and prepare PRs for human review and merge. If asked to "commit to master," "push to master," or "merge this into master," Claude must refuse and cite this rule. This rule applies to the `master` branch specifically; other branches remain subject to Rules 9 and 10.
+Claude must never run `git commit`, `git push`, `git merge`, `git rebase`, `gh pr merge`, or any other write operation that targets the `master` branch — neither directly nor by merging a feature branch into it. **No one — human or AI — works on `master` directly.** All `master` writes are performed **manually by a human** only at release time by merging `develop → master`. Claude may only: read `master` (`git log`, `git diff`, `git show`), and branch off `develop` (not `master`) into `feature/`, `bugfix/`, or `hotfix/` branches. All PRs target `develop`, never `master`. If asked to "commit to master," "push to master," or "merge this into master," Claude must refuse and cite this rule.
 
 ### 12. Docs First, Then Code
 For any new feature, new endpoint, schema change, or behavior change: the affected files under `Documents/` MUST be drafted and committed **before** any code is written for that change. The order is: **(1) docs PR merged → (2) code PR opened.** Two PRs, in order, never combined.
@@ -71,7 +73,7 @@ For any new feature, new endpoint, schema change, or behavior change: the affect
 ## Session Protocol
 
 ### Start
-1. **Check git branch** — must NOT be `master`. If it is, branch off per Rule 3.
+1. **Check git branch** — must NOT be `master` or `develop`. If on `master` or `develop`, branch off `develop` per Rule 3.
 2. **Read `Documents/Reference/PROJECT_CONTEXT.md`** for project context.
 3. **State**: "Working on: [task]. Reading: [files]."
 4. If the task is non-trivial: read the relevant department guide first (`Documents/Engineering/Backend/`, `Documents/Engineering/Frontend/`, `Documents/QA/`, etc.).
@@ -149,7 +151,7 @@ The full standards live in dedicated docs. Do not duplicate them here.
 ---
 
 ## Forbidden by default (require explicit human approval)
-- Force-pushing to `master` or any shared branch.
+- Force-pushing to `master`, `develop`, or any shared branch.
 - Skipping git hooks (`--no-verify`, `--no-gpg-sign`).
 - Amending or rewriting commits that are already pushed.
 - Adding a new npm or pip dependency without going through `Documents/Process/RACI.md` W5.
@@ -158,5 +160,6 @@ The full standards live in dedicated docs. Do not duplicate them here.
 - Committing changes to one of the protected formulas (Rule 2) without `[BIZ-QC-NEEDED]` + product owner sign-off.
 - Creating, modifying, or deleting any file/folder without explicit user approval (Rule 9).
 - Running `git push`, `git pull`, `git fetch`, `git merge`, or `gh pr merge` without explicit per-command approval (Rule 10).
-- Any commit, push, merge, or rebase that writes to the `master` branch — master is human-only (Rule 11).
+- Any commit, push, merge, or rebase that writes to the `master` branch — master is human-only, deployment-only (Rule 11).
+- Merging `develop → master` — this is a human-only release operation (Rules 3, 11).
 - Writing or committing code for a new feature/endpoint/schema change before the matching docs PR has landed (Rule 12 — Docs First, Then Code).
