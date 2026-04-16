@@ -33,16 +33,6 @@ function Login() {
         <p className="auth-subtitle">Log in to manage your expenses</p>
         {error && <div className="error-msg">{error}</div>}
 
-        <GoogleLoginButton
-          text="signin_with"
-          onSuccess={() => navigate('/dashboard')}
-          onError={(msg) => setError(msg)}
-        />
-
-        <div className="auth-divider">
-          <span>or</span>
-        </div>
-
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Email</label>
@@ -66,6 +56,16 @@ function Login() {
           </div>
           <button type="submit" className="btn btn-primary">Log In</button>
         </form>
+
+        <div className="auth-divider">
+          <span>or</span>
+        </div>
+
+        <GoogleLoginButton
+          text="signin_with"
+          onSuccess={() => navigate('/dashboard')}
+          onError={(msg) => setError(msg)}
+        />
         <p className="auth-link">
           Don't have an account? <Link to="/signup">Sign Up</Link>
         </p>

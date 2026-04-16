@@ -509,7 +509,8 @@ body {
 }
 
 .google-btn-wrapper > div {
-  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 /* OR divider */
