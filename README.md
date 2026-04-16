@@ -528,7 +528,7 @@ All 14 integration tests pass:
 
 This project follows the **claude-code-project-guide** framework:
 
-- **`CLAUDE.md`** — 12 governance rules enforced during development (Rules 1–8 = SDLC discipline; Rules 9–12 = AI-collaborator guardrails: ask before file edits, ask before git remote ops, no auto-merges to `master`, docs PR before code PR)
+- **`CLAUDE.md`** — 12 governance rules enforced during development (Rules 1–8 = SDLC discipline; Rules 9–12 = AI-collaborator guardrails: ask before file edits, ask before git remote ops, no auto-merges to `master`, docs PR before code PR). Uses a `develop` shadow-branch workflow — `master` is deployment-only, all work flows through `develop`
 - **`Documents/`** — SDLC documentation organized by department (Reference, Process, Engineering, QA, DevOps, Security, Project, Product)
 - **Protected business logic** — All financial calculations flagged with `[BIZ-QC-NEEDED]`
 
@@ -543,10 +543,16 @@ Type `/<name>` in the Claude Code chat to run a project-local skill. Skills are 
 | `/done` | Full session wrap-up: doc updates, lint, tests, ticket flip, commit | End of a working session |
 | `/commit` | Stage selectively + build a conventional commit per `Documents/Process/GitWorkFlow.md` (auto-detects `[BIZ-QC-NEEDED]`) | Anytime you want to commit |
 | `/lint-fix` | Run flake8/black + ESLint, scoped to files in the current diff only (Rule 5) | Before commit or PR |
+| `/simplify` | Review changed code for reuse, quality, and efficiency; fix issues found | After implementing a feature or fix |
 | `/arch-doc` | Create or update an ADR / architecture doc under `Documents/Engineering/Architecture/` | After making an architectural decision |
 | `/update-docs` | Read recent code changes and resync the affected docs to current state | When code and docs have drifted (Rule 12 prevents this going forward) |
+| `/update-config` | Configure Claude Code settings: hooks, permissions, env vars, `settings.json` | Setting up automated behaviors or permissions |
+| `/keybindings-help` | Customize keyboard shortcuts, rebind keys, modify `~/.claude/keybindings.json` | Personalizing keyboard shortcuts |
 | `/release-preflight` | Walk `Documents/DevOps/ReleaseRunbook.md` pre-flight checklist | Before cutting a release |
 | `/weekly` | Generate a weekly summary of `master` commits — categorized + draft standup copy | Sprint retros, founder updates |
+| `/loop` | Run a prompt or slash command on a recurring interval (e.g. `/loop 5m /foo`) | Polling, recurring checks, repeated tasks |
+| `/schedule` | Create, update, list, or run scheduled remote agents on a cron schedule | Setting up automated recurring agents |
+| `/claude-api` | Build, debug, and optimize Claude API / Anthropic SDK apps with prompt caching | Working with `anthropic` SDK or Claude API features |
 | `/statusline-setup` | Configure the project-tailored Claude Code statusline | One-time setup |
 
 Full skill index with implementation details: [`.claude/skills/README.md`](./.claude/skills/README.md).
@@ -559,10 +565,10 @@ New contributors start with `Documents/Process/OnboardingPlaybook.md`.
 
 **Recommended daily workflow:**
 1. Pull a ticket from `Documents/Project/ticket-inventory.md` → run `/check-ready` to confirm it's pickup-ready.
-2. Branch off `master` (`feature/{id}-{desc}` / `bugfix/{id}-{desc}` per `Documents/Process/GitWorkFlow.md`).
+2. Branch off `develop` (`feature/{id}-{desc}` / `bugfix/{id}-{desc}` per `Documents/Process/GitWorkFlow.md`).
 3. **Per Rule 12: write the docs PR first**, then the code PR.
 4. End of session: run `/done` to wrap up cleanly.
-5. Before opening a PR: run `/check-done`. **You merge to `master` manually** (Rule 11).
+5. Before opening a PR: run `/check-done`. PRs target `develop`. **Only you (human) merge `develop → master` at release time** (Rules 3, 11).
 
 See [claude-code-project-guide](https://github.com/RahmanBhuiyan/claude-code-project-guide) for the full framework.
 
